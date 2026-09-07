@@ -34,6 +34,8 @@ interface RawProblemEntry {
   };
 }
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage({ searchParams }: PageProps) {
   const { company: selectedSlugParam } = await searchParams;
 

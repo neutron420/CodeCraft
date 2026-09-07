@@ -7,6 +7,8 @@ import { withDbRetry } from "@/lib/db-retry";
 
 import { getOrSetCache } from "@/lib/redis";
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardLayout({
   children,
 }: {

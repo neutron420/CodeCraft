@@ -26,6 +26,16 @@ export function getRedisClient(): Redis | null {
 }
 
 
+function isDynamicServerError(err: unknown): boolean {
+  return (
+    typeof err === "object" &&
+    err !== null &&
+    "digest" in err &&
+    typeof (err as { digest: unknown }).digest === "string" &&
+    (err as { digest: string }).digest.includes("DYNAMIC_SERVER_USAGE")
+  );
+}
+
 export async function getOrSetCache<T>(
   key: string,
   fetcher: () => Promise<T>,
@@ -43,9 +53,11 @@ export async function getOrSetCache<T>(
       return cached;
     }
   } catch (err) {
+    if (isDynamicServerError(err)) {
+      throw err;
+    }
     console.warn(`[Redis] Cache read failed for key "${key}":`, err);
   }
-
 
   const freshData = await fetcher();
 
@@ -53,6 +65,9 @@ export async function getOrSetCache<T>(
     try {
       await redis.set(key, freshData, { ex: ttlSeconds });
     } catch (err) {
+      if (isDynamicServerError(err)) {
+        throw err;
+      }
       console.warn(`[Redis] Cache write failed for key "${key}":`, err);
     }
   }
