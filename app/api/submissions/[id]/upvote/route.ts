@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { invalidateCache } from "@/lib/redis";
 
 // In-memory cache of recent votes (IP + submissionId) to prevent replay/bot spam
 const recentUpvotes = new Set<string>();
@@ -56,8 +57,13 @@ export async function POST(
         id: true,
         upvotes: true,
         title: true,
+        company: { select: { slug: true } },
       },
     });
+
+    if (updated.company?.slug) {
+      await invalidateCache(`cache:company:${updated.company.slug}:problems`);
+    }
 
     return NextResponse.json({
       success: true,

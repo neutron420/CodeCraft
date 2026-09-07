@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { CodingPlatform, Difficulty } from "@/app/generated/prisma/client";
+import { invalidateCache } from "@/lib/redis";
 
 export async function GET(req: Request) {
   try {
@@ -233,6 +234,12 @@ export async function POST(req: Request) {
         },
       });
 
+      // Invalidate Redis cache for this company's problems and sidebar
+      await invalidateCache(
+        `cache:company:${company.slug}:problems`,
+        "cache:companies:sidebar"
+      );
+
       return NextResponse.json(
         {
           success: true,
@@ -289,6 +296,12 @@ export async function POST(req: Request) {
         company: { select: { name: true, slug: true } },
       },
     });
+
+    // Invalidate Redis cache for this company's problems and sidebar count
+    await invalidateCache(
+      `cache:company:${company.slug}:problems`,
+      "cache:companies:sidebar"
+    );
 
     return NextResponse.json({
       success: true,
