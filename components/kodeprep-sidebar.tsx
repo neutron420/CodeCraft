@@ -38,8 +38,11 @@ import {
   Search,
   Plus,
   Bookmark,
+  Boxes,
+  Network,
 } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
 import { useAuth } from "@/lib/context/auth-context";
 import { useBookmarks } from "@/lib/hooks/use-bookmarks";
 import { VerifiedBadge } from "@/components/ui/verified-badge";
@@ -494,6 +497,50 @@ export function KodePrepSidebar({ companies, selectedCompanySlug }: KodePrepSide
       {/* 3. DOWNSIDE NAVIGATION & ACCOUNT FOOTER                                   */}
       {/* ========================================================================= */}
       <div className="shrink-0 p-2.5 border-t border-border/40 bg-transparent space-y-2">
+        {/* LLD (Low Level Design) */}
+        <button
+          type="button"
+          onClick={() => {
+            toast.info("Low Level Design (LLD) is coming soon!", {
+              description: "Object-oriented design patterns, machine coding rounds, and schema templates are currently in development.",
+            });
+          }}
+          className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group text-foreground/85 hover:bg-muted/60 hover:text-foreground"
+          title="Low Level Design (LLD) - Coming Soon"
+        >
+          <div className="flex items-center gap-2.5 min-w-0">
+            <Boxes className="size-4 shrink-0 text-violet-400 group-hover:text-violet-300 transition-colors" />
+            <span className="truncate">
+              LLD <span className="text-[11px] text-muted-foreground/80 font-normal">(Low Level Design)</span>
+            </span>
+          </div>
+          <span className="text-[9.5px] font-medium tracking-wide px-1.5 py-0.5 rounded-full bg-violet-500/10 text-violet-400 border border-violet-500/20 shrink-0">
+            Coming Soon
+          </span>
+        </button>
+
+        {/* HLD (High Level Design) */}
+        <button
+          type="button"
+          onClick={() => {
+            toast.info("High Level Design (HLD) is coming soon!", {
+              description: "Distributed system architectures, microservices, and large-scale interview blueprints are launching soon.",
+            });
+          }}
+          className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group text-foreground/85 hover:bg-muted/60 hover:text-foreground"
+          title="High Level Design (HLD) - Coming Soon"
+        >
+          <div className="flex items-center gap-2.5 min-w-0">
+            <Network className="size-4 shrink-0 text-emerald-400 group-hover:text-emerald-300 transition-colors" />
+            <span className="truncate">
+              HLD <span className="text-[11px] text-muted-foreground/80 font-normal">(High Level Design)</span>
+            </span>
+          </div>
+          <span className="text-[9.5px] font-medium tracking-wide px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shrink-0">
+            Coming Soon
+          </span>
+        </button>
+
         {/* Bookmarks downside menu item (matching user reference image style) */}
         <button
           type="button"
