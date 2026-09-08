@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/lib/context/auth-context";
 import { Toaster } from "@/components/ui/sonner";
 import { Metadata } from "next";
+import Script from "next/script";
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -21,6 +22,9 @@ const fontHeading = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: "CodeCraft Company-wise Coding Interview Prep",
   description: "Practice LeetCode problems by company, filter by topic, and track your solved progress.",
+  other: {
+    "google-adsense-account": "ca-pub-7449708956977518",
+  },
 };
 
 export default function RootLayout({
@@ -30,7 +34,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${fontSans.variable} antialiased`}>
+      <head>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7449708956977518"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+      </head>
+      <body className={`${fontSans.variable} ${fontHeading.variable} antialiased`}>
         <AuthProvider>
           <TooltipProvider>
             {children}

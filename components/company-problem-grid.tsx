@@ -657,142 +657,147 @@ export function CompanyProblemGrid({ problems, companyName, companySlug }: Compa
       </div>
 
       {/* ========================================================================= */}
-      {/* 2. SEARCH — COMPACT & MINIMAL (MATCHING REFERENCE)                        */}
+      {/* 2. CONTROLS TOOLBAR: COMPACT SEARCH + FILTERS + SORT + VIEW               */}
+      {/* Small, mobile-optimized search inline with controls on desktop            */}
       {/* ========================================================================= */}
-      <div className="relative w-full">
-        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-zinc-500 dark:text-zinc-500 pointer-events-none stroke-[1.75]" />
-        <input
-          ref={searchInputRef}
-          type="text"
-          value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-            setCurrentPage(1);
-          }}
-          placeholder="Search problems, topics, number..."
-          className="w-full h-8.5 sm:h-9 pl-8.5 pr-8 rounded-[2px] border border-zinc-800 dark:border-zinc-800 bg-background dark:bg-background text-foreground text-xs sm:text-[13px] placeholder:text-zinc-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-zinc-600 dark:focus:border-zinc-600 transition-colors shadow-none"
-        />
+      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5 pt-0.5">
+        {/* Search — Small, compact & minimal with specular top line (matching reference) */}
+        <div className="relative w-full max-w-[320px] md:w-64 lg:w-72 shrink-0">
+          {/* Top specular highlight matching reference image */}
+          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/45 to-transparent pointer-events-none rounded-t-[2px] z-10" />
 
-        <div className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-1">
-          {search ? (
-            <button
-              type="button"
-              onClick={() => {
-                setSearch("");
-                setCurrentPage(1);
-                searchInputRef.current?.focus();
-              }}
-              className="p-0.5 text-zinc-500 hover:text-zinc-300 transition-colors cursor-pointer"
-              title="Clear search"
-              aria-label="Clear search"
-            >
-              <X className="size-3.5" />
-            </button>
-          ) : (
-            <kbd className="hidden sm:inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-mono text-zinc-500 dark:text-zinc-500 bg-zinc-900/60 dark:bg-zinc-900/60 border border-zinc-800/80 rounded-[2px] select-none pointer-events-none">
-              <span>/</span>
-            </kbd>
-          )}
-        </div>
-      </div>
-
-      {/* ========================================================================= */}
-      {/* 3. CONTROLS TOOLBAR: FILTERS + SORT + VIEW                                */}
-      {/* ========================================================================= */}
-      <div className="flex items-center gap-2 pt-0.5">
-        {/* Filters Button */}
-        <button
-          type="button"
-          onClick={() => setIsFilterSheetOpen(true)}
-          className={`flex-1 sm:flex-none sm:w-auto sm:px-4 sm:h-9 min-w-0 flex items-center justify-center gap-1.5 px-3 py-2 rounded-md text-xs font-semibold border transition-all cursor-pointer shadow-2xs ${
-            activeFilterCount > 0
-              ? "bg-primary text-primary-foreground border-primary hover:bg-primary/90"
-              : "bg-card hover:bg-muted text-foreground border-border"
-          }`}
-        >
-          <SlidersHorizontal className="size-3.5 shrink-0" />
-          <span className="truncate">Filters</span>
-          {activeFilterCount > 0 && (
-            <span className="size-4.5 rounded-full bg-white text-primary text-[10px] font-extrabold flex items-center justify-center shrink-0">
-              {activeFilterCount}
-            </span>
-          )}
-        </button>
-
-        {/* Quick Saved Filter Toggle */}
-        <button
-          type="button"
-          onClick={() => {
-            setStatusFilter((prev) => (prev === "BOOKMARKED" ? "ALL" : "BOOKMARKED"));
-            setCurrentPage(1);
-          }}
-          className={`flex items-center gap-1.5 px-3 py-2 sm:h-9 rounded-md text-xs font-semibold border transition-all cursor-pointer shadow-2xs ${
-            statusFilter === "BOOKMARKED"
-              ? "bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/40 hover:bg-amber-500/25"
-              : "bg-card hover:bg-muted text-muted-foreground hover:text-foreground border-border"
-          }`}
-          title={statusFilter === "BOOKMARKED" ? "Showing saved questions (click to clear)" : "Filter saved questions"}
-        >
-          <Bookmark className={`size-3.5 shrink-0 ${statusFilter === "BOOKMARKED" ? "fill-amber-500 text-amber-500" : ""}`} />
-          <span className="hidden xs:inline">Saved</span>
-          <span
-            className={`text-[10px] font-mono font-bold px-1.5 py-0.2 rounded-full ${
-              statusFilter === "BOOKMARKED"
-                ? "bg-amber-500/25 text-amber-600 dark:text-amber-400"
-                : "bg-muted text-muted-foreground"
-            }`}
-          >
-            {bookmarkedCount}
-          </span>
-        </button>
-
-        {/* Sort Select */}
-        <div className="relative flex-1 sm:flex-none sm:w-48 sm:h-9 min-w-0">
-          <select
-            value={sortBy}
+          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-zinc-500 dark:text-zinc-500 pointer-events-none stroke-[1.75]" />
+          <input
+            ref={searchInputRef}
+            type="text"
+            value={search}
             onChange={(e) => {
-              setSortBy(e.target.value as SortOptionType);
+              setSearch(e.target.value);
               setCurrentPage(1);
             }}
-            aria-label="Sort questions"
-            className="w-full h-full appearance-none pl-6 pr-5 py-2 sm:py-0 rounded-md text-[11.5px] sm:text-xs font-semibold border border-border bg-card hover:bg-muted text-foreground transition-all cursor-pointer shadow-2xs focus:outline-none focus:ring-2 focus:ring-primary/40 truncate text-left"
-          >
-            {SORT_OPTIONS.map((opt) => (
-              <option key={opt.id} value={opt.id} className="bg-popover text-popover-foreground py-1 text-xs">
-                {opt.label}
-              </option>
-            ))}
-          </select>
-          <ArrowUpDown className="absolute left-2 top-1/2 -translate-y-1/2 size-3 text-muted-foreground pointer-events-none" />
-          <ChevronDown className="absolute right-1.5 top-1/2 -translate-y-1/2 size-3 text-muted-foreground pointer-events-none" />
+            placeholder="Search problems, topics, number..."
+            className="w-full h-8 sm:h-8.5 pl-8 pr-7 rounded-[2px] border border-zinc-800/90 dark:border-zinc-800/90 bg-[#09090b] dark:bg-[#09090b] text-foreground text-xs sm:text-[13px] placeholder:text-zinc-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-zinc-700 dark:focus:border-zinc-700 transition-colors shadow-none"
+          />
+
+          <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+            {search ? (
+              <button
+                type="button"
+                onClick={() => {
+                  setSearch("");
+                  setCurrentPage(1);
+                  searchInputRef.current?.focus();
+                }}
+                className="p-0.5 text-zinc-500 hover:text-zinc-300 transition-colors cursor-pointer"
+                title="Clear search"
+                aria-label="Clear search"
+              >
+                <X className="size-3.5" />
+              </button>
+            ) : (
+              <kbd className="hidden md:inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-mono text-zinc-500 dark:text-zinc-500 bg-zinc-900/80 dark:bg-zinc-900/80 border border-zinc-800/80 rounded-[2px] select-none pointer-events-none">
+                <span>/</span>
+              </kbd>
+            )}
+          </div>
         </div>
 
-        {/* View Mode Toggle */}
-        <div className="flex items-center gap-0.5 p-0.5 bg-muted/60 rounded-md border border-border/70 shrink-0 sm:ml-auto">
+        {/* Toolbar Controls: Filters + Saved + Sort + View */}
+        <div className="flex items-center gap-2 overflow-x-auto sm:overflow-visible">
+          {/* Filters Button */}
           <button
             type="button"
-            onClick={() => setViewMode("GRID")}
-            className={`p-1.5 rounded-lg text-xs transition-all cursor-pointer ${
-              viewMode === "GRID"
-                ? "bg-card text-primary font-semibold shadow-2xs"
-                : "text-muted-foreground hover:text-foreground"
+            onClick={() => setIsFilterSheetOpen(true)}
+            className={`flex-1 sm:flex-none sm:w-auto sm:px-3.5 sm:h-8.5 min-w-0 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold border transition-all cursor-pointer shadow-2xs ${
+              activeFilterCount > 0
+                ? "bg-primary text-primary-foreground border-primary hover:bg-primary/90"
+                : "bg-card hover:bg-muted text-foreground border-border"
             }`}
-            title="Grid View"
           >
-            <LayoutGrid className="size-3.5" />
+            <SlidersHorizontal className="size-3.5 shrink-0" />
+            <span className="truncate">Filters</span>
+            {activeFilterCount > 0 && (
+              <span className="size-4.5 rounded-full bg-white text-primary text-[10px] font-extrabold flex items-center justify-center shrink-0">
+                {activeFilterCount}
+              </span>
+            )}
           </button>
+
+          {/* Quick Saved Filter Toggle */}
           <button
             type="button"
-            onClick={() => setViewMode("LIST")}
-            className={`p-1.5 rounded-lg text-xs transition-all cursor-pointer ${
-              viewMode === "LIST"
-                ? "bg-card text-primary font-semibold shadow-2xs"
-                : "text-muted-foreground hover:text-foreground"
+            onClick={() => {
+              setStatusFilter((prev) => (prev === "BOOKMARKED" ? "ALL" : "BOOKMARKED"));
+              setCurrentPage(1);
+            }}
+            className={`flex items-center gap-1.5 px-3 py-1.5 sm:h-8.5 rounded-md text-xs font-semibold border transition-all cursor-pointer shadow-2xs ${
+              statusFilter === "BOOKMARKED"
+                ? "bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/40 hover:bg-amber-500/25"
+                : "bg-card hover:bg-muted text-muted-foreground hover:text-foreground border-border"
             }`}
-            title="List View"
+            title={statusFilter === "BOOKMARKED" ? "Showing saved questions (click to clear)" : "Filter saved questions"}
           >
-            <List className="size-3.5" />
+            <Bookmark className={`size-3.5 shrink-0 ${statusFilter === "BOOKMARKED" ? "fill-amber-500 text-amber-500" : ""}`} />
+            <span className="hidden xs:inline">Saved</span>
+            <span
+              className={`text-[10px] font-mono font-bold px-1.5 py-0.2 rounded-full ${
+                statusFilter === "BOOKMARKED"
+                  ? "bg-amber-500/25 text-amber-600 dark:text-amber-400"
+                  : "bg-muted text-muted-foreground"
+              }`}
+            >
+              {bookmarkedCount}
+            </span>
           </button>
+
+          {/* Sort Select */}
+          <div className="relative flex-1 sm:flex-none sm:w-44 sm:h-8.5 min-w-0">
+            <select
+              value={sortBy}
+              onChange={(e) => {
+                setSortBy(e.target.value as SortOptionType);
+                setCurrentPage(1);
+              }}
+              aria-label="Sort questions"
+              className="w-full h-full appearance-none pl-6 pr-5 py-1.5 sm:py-0 rounded-md text-[11.5px] sm:text-xs font-semibold border border-border bg-card hover:bg-muted text-foreground transition-all cursor-pointer shadow-2xs focus:outline-none focus:ring-2 focus:ring-primary/40 truncate text-left"
+            >
+              {SORT_OPTIONS.map((opt) => (
+                <option key={opt.id} value={opt.id} className="bg-popover text-popover-foreground py-1 text-xs">
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+            <ArrowUpDown className="absolute left-2 top-1/2 -translate-y-1/2 size-3 text-muted-foreground pointer-events-none" />
+            <ChevronDown className="absolute right-1.5 top-1/2 -translate-y-1/2 size-3 text-muted-foreground pointer-events-none" />
+          </div>
+
+          {/* View Mode Toggle */}
+          <div className="flex items-center gap-0.5 p-0.5 bg-muted/60 rounded-md border border-border/70 shrink-0 md:ml-auto">
+            <button
+              type="button"
+              onClick={() => setViewMode("GRID")}
+              className={`p-1.5 rounded-lg text-xs transition-all cursor-pointer ${
+                viewMode === "GRID"
+                  ? "bg-card text-primary font-semibold shadow-2xs"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+              title="Grid View"
+            >
+              <LayoutGrid className="size-3.5" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode("LIST")}
+              className={`p-1.5 rounded-lg text-xs transition-all cursor-pointer ${
+                viewMode === "LIST"
+                  ? "bg-card text-primary font-semibold shadow-2xs"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+              title="List View"
+            >
+              <List className="size-3.5" />
+            </button>
+          </div>
         </div>
       </div>
 
