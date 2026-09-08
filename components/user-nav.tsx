@@ -86,6 +86,9 @@ export function UserNav() {
                 {displayName}
               </p>
               <VerifiedBadge className="size-3.5 shrink-0" />
+              <span className="text-[9.5px] font-extrabold uppercase px-1.5 py-0.5 rounded-md bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 leading-none shrink-0">
+                Pro
+              </span>
             </div>
             {identifier && (
               <p className="text-[11px] text-muted-foreground truncate font-mono mt-0.5">

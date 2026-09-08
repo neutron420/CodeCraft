@@ -46,10 +46,10 @@ export function VerifiedBadge({
           />
         </svg>
       </TooltipTrigger>
-      <TooltipContent side="top" className="text-[11px] font-semibold bg-zinc-900 text-amber-300 border-amber-500/30">
+      <TooltipContent side="top" className="text-[11.5px] font-semibold bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-800 shadow-md">
         <div className="flex items-center gap-1.5">
-          <span className="size-1.5 rounded-full bg-amber-400 animate-pulse" />
-          <span>{label}</span>
+          <span className="size-1.5 rounded-full bg-amber-500 shrink-0" />
+          <span className="text-zinc-900 dark:text-zinc-100 font-bold">{label}</span>
         </div>
       </TooltipContent>
     </Tooltip>

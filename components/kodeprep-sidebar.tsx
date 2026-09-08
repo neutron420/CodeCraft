@@ -514,16 +514,21 @@ export function KodePrepSidebar({ companies, selectedCompanySlug }: KodePrepSide
                 description: "Object-oriented design patterns, machine coding rounds, and schema templates are currently in development.",
               });
             }}
-            className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs transition-all cursor-pointer group hover:bg-muted/50 text-foreground/90"
+            className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs transition-all cursor-pointer group hover:bg-muted/50 text-foreground/90"
             title="Low Level Design (LLD) - Coming Soon"
           >
-            <div className="flex items-center gap-2.5 min-w-0">
-              <Boxes className="size-4 shrink-0 text-violet-400 group-hover:text-violet-300 transition-colors" />
-              <span className="truncate font-medium">LLD (Low Level Design)</span>
+            <div className="flex items-center gap-2.5 min-w-0 flex-1">
+              <Boxes className="size-4 shrink-0 text-violet-500 group-hover:scale-105 transition-transform" />
+              <div className="flex flex-col items-start min-w-0 text-left">
+                <div className="flex items-center gap-1.5">
+                  <span className="font-bold text-xs text-foreground leading-tight">LLD</span>
+                  <span className="text-[9px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-[3px] bg-violet-500/10 text-violet-600 dark:text-violet-400 border border-violet-500/20">
+                    Coming Soon
+                  </span>
+                </div>
+                <span className="text-[11px] text-muted-foreground leading-tight mt-0.5">Low Level Design</span>
+              </div>
             </div>
-            <span className="text-[9.5px] font-mono font-semibold uppercase tracking-wider px-2 py-0.5 rounded-[4px] bg-violet-500/10 text-violet-400 border border-violet-500/25 shrink-0 shadow-2xs">
-              Coming Soon
-            </span>
           </button>
 
           {/* HLD (High Level Design) */}
@@ -534,16 +539,21 @@ export function KodePrepSidebar({ companies, selectedCompanySlug }: KodePrepSide
                 description: "Distributed system architectures, microservices, and large-scale interview blueprints are launching soon.",
               });
             }}
-            className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs transition-all cursor-pointer group hover:bg-muted/50 text-foreground/90"
+            className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs transition-all cursor-pointer group hover:bg-muted/50 text-foreground/90"
             title="High Level Design (HLD) - Coming Soon"
           >
-            <div className="flex items-center gap-2.5 min-w-0">
-              <Network className="size-4 shrink-0 text-emerald-400 group-hover:text-emerald-300 transition-colors" />
-              <span className="truncate font-medium">HLD (High Level Design)</span>
+            <div className="flex items-center gap-2.5 min-w-0 flex-1">
+              <Network className="size-4 shrink-0 text-emerald-500 group-hover:scale-105 transition-transform" />
+              <div className="flex flex-col items-start min-w-0 text-left">
+                <div className="flex items-center gap-1.5">
+                  <span className="font-bold text-xs text-foreground leading-tight">HLD</span>
+                  <span className="text-[9px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-[3px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                    Coming Soon
+                  </span>
+                </div>
+                <span className="text-[11px] text-muted-foreground leading-tight mt-0.5">High Level Design</span>
+              </div>
             </div>
-            <span className="text-[9.5px] font-mono font-semibold uppercase tracking-wider px-2 py-0.5 rounded-[4px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 shrink-0 shadow-2xs">
-              Coming Soon
-            </span>
           </button>
         </div>
       </SidebarContent>
@@ -615,6 +625,9 @@ export function KodePrepSidebar({ companies, selectedCompanySlug }: KodePrepSide
                     {user.displayName || user.email?.split("@")[0] || user.phoneNumber || "User"}
                   </p>
                   <VerifiedBadge className="size-3.5 shrink-0" />
+                  <span className="text-[9.5px] font-extrabold uppercase px-1.5 py-0.5 rounded-md bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 leading-none shrink-0">
+                    Pro
+                  </span>
                 </div>
                 <p className="text-[10.5px] text-muted-foreground truncate font-mono mt-0.5 leading-tight">
                   {user.email || user.phoneNumber || "Signed in"}
