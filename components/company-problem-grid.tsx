@@ -661,12 +661,12 @@ export function CompanyProblemGrid({ problems, companyName, companySlug }: Compa
       {/* Small, mobile-optimized search inline with controls on desktop            */}
       {/* ========================================================================= */}
       <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5 pt-0.5">
-        {/* Search — Small, compact & minimal with specular top line (matching reference) */}
+        {/* Search — Small, compact & clean white theme (matching user's theme) */}
         <div className="relative w-full max-w-[320px] md:w-64 lg:w-72 shrink-0">
-          {/* Top specular highlight matching reference image */}
-          <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/45 to-transparent pointer-events-none rounded-t-[2px] z-10" />
+          {/* Top specular highlight in dark mode */}
+          <div className="hidden dark:block absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/45 to-transparent pointer-events-none rounded-t-[2px] z-10" />
 
-          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-zinc-500 dark:text-zinc-500 pointer-events-none stroke-[1.75]" />
+          <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-zinc-400 dark:text-zinc-500 pointer-events-none stroke-[1.75]" />
           <input
             ref={searchInputRef}
             type="text"
@@ -676,7 +676,7 @@ export function CompanyProblemGrid({ problems, companyName, companySlug }: Compa
               setCurrentPage(1);
             }}
             placeholder="Search problems, topics, number..."
-            className="w-full h-8 sm:h-8.5 pl-8 pr-7 rounded-[2px] border border-zinc-800/90 dark:border-zinc-800/90 bg-[#09090b] dark:bg-[#09090b] text-foreground text-xs sm:text-[13px] placeholder:text-zinc-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-zinc-700 dark:focus:border-zinc-700 transition-colors shadow-none"
+            className="w-full h-8 sm:h-8.5 pl-8 pr-7 rounded-[2px] border border-zinc-200 dark:border-zinc-800/90 bg-white dark:bg-[#09090b] text-foreground text-xs sm:text-[13px] placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-400 dark:focus:ring-0 focus:border-zinc-400 dark:focus:border-zinc-700 transition-colors shadow-2xs dark:shadow-none"
           />
 
           <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
@@ -688,14 +688,14 @@ export function CompanyProblemGrid({ problems, companyName, companySlug }: Compa
                   setCurrentPage(1);
                   searchInputRef.current?.focus();
                 }}
-                className="p-0.5 text-zinc-500 hover:text-zinc-300 transition-colors cursor-pointer"
+                className="p-0.5 text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300 transition-colors cursor-pointer"
                 title="Clear search"
                 aria-label="Clear search"
               >
                 <X className="size-3.5" />
               </button>
             ) : (
-              <kbd className="hidden md:inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-mono text-zinc-500 dark:text-zinc-500 bg-zinc-900/80 dark:bg-zinc-900/80 border border-zinc-800/80 rounded-[2px] select-none pointer-events-none">
+              <kbd className="hidden md:inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-mono text-zinc-400 dark:text-zinc-500 bg-zinc-100 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800/80 rounded-[2px] select-none pointer-events-none">
                 <span>/</span>
               </kbd>
             )}
