@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/context/auth-context";
-import { FlowButton } from "@/components/ui/flow-button";
+import { TextureButton } from "@/components/ui/texture-button";
 import { HeroHeader } from "./header";
 import Image from "next/image";
 import { LeetCode } from "../svgs/leetcode";
@@ -86,12 +86,13 @@ export default function HeroSection() {
               </p>
 
               <div className="mt-7 sm:mt-8 flex justify-center">
-                <FlowButton
-                  text="Start Practicing"
+                <TextureButton
+                  size="lg"
                   onClick={handleStartPracticing}
-                  variant="black"
-                  className="h-12 px-9 text-sm font-semibold shadow-md"
-                />
+                  className="shadow-md hover:shadow-lg transition-all"
+                >
+                  Start Practicing
+                </TextureButton>
               </div>
 
               {/* 2. Platform Pills Row (All platforms visible, clean & modern) */}

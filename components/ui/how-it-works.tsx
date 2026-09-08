@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { LazyMotion, domAnimation, m } from "motion/react";
 import { HighlightText } from "@/components/ui/highlight-text";
 
@@ -37,8 +37,8 @@ const Card = ({
   title,
   description,
   colorTheme = "blue",
-  className,
-  rotate,
+  className = "",
+  rotate = "",
   colors: customColors,
 }: CardProps) => {
   const defaultBgColors = {
@@ -63,7 +63,7 @@ const Card = ({
 
   return (
     <div
-      className={`relative w-full max-w-[340px] mx-auto md:mx-0 md:w-[280px] transition-transform duration-300 hover:z-30 hover:scale-105 max-md:!rotate-0 ${rotate} ${className}`}
+      className={`w-[280px] transition-transform duration-300 hover:z-30 hover:scale-105 ${rotate} ${className}`}
     >
       <div className="bg-white dark:bg-neutral-900 p-2 rounded-[25px] shadow-[0px_10px_20px_0px_#D3D3D3] dark:shadow-none border border-neutral-100 dark:border-neutral-800">
         <Pin className={`w-8 h-8 ${textColor} z-20 mb-6 mx-auto`} />
@@ -113,22 +113,22 @@ export interface HowItWorksProps {
 }
 
 const DEFAULT_CARD_POSITIONS: StepPosition[] = [
-  { className: "md:absolute md:top-0 md:left-[15%]", rotate: "rotate-8" },
+  { className: "absolute top-0 left-[15%]", rotate: "rotate-8" },
   {
-    className: "md:absolute md:top-[120px] md:right-[15%]",
+    className: "absolute top-[120px] right-[15%]",
     rotate: "-rotate-8",
   },
-  { className: "md:absolute md:top-[450px] md:left-[15%]", rotate: "rotate-8" },
+  { className: "absolute top-[450px] left-[15%]", rotate: "rotate-8" },
   {
-    className: "md:absolute md:top-[570px] md:right-[10%]",
+    className: "absolute top-[570px] right-[10%]",
     rotate: "-rotate-8",
   },
-  { className: "md:absolute md:top-[850px] md:left-[15%]", rotate: "rotate-8" },
+  { className: "absolute top-[850px] left-[15%]", rotate: "rotate-8" },
 ];
 
 export default function HowItWorks({
   features,
-  className,
+  className = "",
   stepPositions,
 }: HowItWorksProps) {
   const defaultFeatures: Step[] = [
@@ -174,10 +174,30 @@ export default function HowItWorks({
   else if (data.length === 4) height = 900;
   else height = 1130;
 
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const updateScale = () => {
+      if (wrapperRef.current) {
+        const availableWidth = wrapperRef.current.clientWidth;
+        if (availableWidth > 0 && availableWidth < 1000) {
+          setScale(availableWidth / 1000);
+        } else {
+          setScale(1);
+        }
+      }
+    };
+
+    updateScale();
+    window.addEventListener("resize", updateScale);
+    return () => window.removeEventListener("resize", updateScale);
+  }, []);
+
   return (
     <LazyMotion features={domAnimation}>
       <div
-        className={`bg-white dark:bg-black max-md:pt-10 max-md:pb-12 md:py-20 px-6 sm:px-8 relative ${className}`}
+        className={`bg-white dark:bg-black py-16 md:py-20 px-4 sm:px-8 relative overflow-hidden ${className}`}
       >
         <div
           className="absolute inset-0 pointer-events-none opacity-[0.08] dark:opacity-[0.15]"
@@ -217,70 +237,85 @@ export default function HowItWorks({
             </p>
           </div>
 
+          {/* Scaled Canvas Container: Exactly preserves the PC layout on Mobile */}
           <div
-            className="relative w-full max-w-[1000px] mx-auto flex flex-col space-y-8 md:space-y-0 md:block h-auto md:h-[var(--md-height)]"
-            style={{ "--md-height": `${height}px` } as React.CSSProperties}
+            ref={wrapperRef}
+            className="w-full flex justify-center overflow-hidden"
+            style={{
+              height: `${Math.round(height * scale)}px`,
+              transition: "height 0.2s ease-out",
+            }}
           >
-            {data.length > 1 && (
-              <svg
-                className="absolute top-0 left-0 w-full h-full pointer-events-none hidden md:block z-0"
-                viewBox={`0 0 1000 ${height}`}
-                preserveAspectRatio="none"
-              >
-                {(() => {
-                  const pathD = data.reduce((acc, _, index) => {
-                    if (index >= data.length - 1) return acc;
-                    if (index === 0)
-                      return "M 290 150 C 500 150, 550 270, 710 270";
-                    if (index === 1)
-                      return acc + " C 850 270, 500 350, 290 450";
-                    if (index === 2)
-                      return acc + " C 290 600, 550 720, 750 720";
-                    if (index === 3)
-                      return acc + " C 950 720, 500 800, 290 850";
-                    return acc;
-                  }, "");
-                  return (
-                    <m.path
-                      d={pathD}
-                      stroke="currentColor"
-                      className="text-neutral-300 dark:text-neutral-700"
-                      strokeWidth="2"
-                      strokeDasharray="8 6"
-                      fill="none"
-                      strokeLinecap="round"
-                      vectorEffect="non-scaling-stroke"
-                      initial={{ strokeDashoffset: 0 }}
-                      animate={{
-                        strokeDashoffset: -140,
-                      }}
-                      transition={{
-                        duration: 3,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
-                    />
-                  );
-                })()}
-              </svg>
-            )}
+            <div
+              className="relative shrink-0"
+              style={{
+                width: 1000,
+                height: height,
+                transform: `scale(${scale})`,
+                transformOrigin: "top center",
+              }}
+            >
+              {data.length > 1 && (
+                <svg
+                  className="absolute top-0 left-0 w-full h-full pointer-events-none z-0"
+                  viewBox={`0 0 1000 ${height}`}
+                  preserveAspectRatio="none"
+                >
+                  {(() => {
+                    const pathD = data.reduce((acc, _, index) => {
+                      if (index >= data.length - 1) return acc;
+                      if (index === 0)
+                        return "M 290 150 C 500 150, 550 270, 710 270";
+                      if (index === 1)
+                        return acc + " C 850 270, 500 350, 290 450";
+                      if (index === 2)
+                        return acc + " C 290 600, 550 720, 750 720";
+                      if (index === 3)
+                        return acc + " C 950 720, 500 800, 290 850";
+                      return acc;
+                    }, "");
+                    return (
+                      <m.path
+                        d={pathD}
+                        stroke="currentColor"
+                        className="text-neutral-300 dark:text-neutral-700"
+                        strokeWidth="2"
+                        strokeDasharray="8 6"
+                        fill="none"
+                        strokeLinecap="round"
+                        vectorEffect="non-scaling-stroke"
+                        initial={{ strokeDashoffset: 0 }}
+                        animate={{
+                          strokeDashoffset: -140,
+                        }}
+                        transition={{
+                          duration: 3,
+                          repeat: Infinity,
+                          ease: "linear",
+                        }}
+                      />
+                    );
+                  })()}
+                </svg>
+              )}
 
-            {data.map((step, index) => {
-              const position = positions[index % positions.length];
+              {data.map((step, index) => {
+                const position = positions[index % positions.length];
 
-              return (
-                <Card
-                  key={step.title}
-                  number={`0${index + 1}`}
-                  title={step.title}
-                  description={step.description}
-                  colorTheme={step.colorTheme || "blue"}
-                  colors={step.colors}
-                  rotate={position.rotate}
-                  className={position.className}
-                />
-              );
-            })}
+                return (
+                  <Card
+                    key={step.title}
+                    number={`0${index + 1}`}
+                    title={step.title}
+                    description={step.description}
+                    colorTheme={step.colorTheme || "blue"}
+                    colors={step.colors}
+                    rotate={position.rotate}
+                    className={position.className}
+                  />
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>

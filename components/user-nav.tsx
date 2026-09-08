@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { useAuth } from "@/lib/context/auth-context";
 import { LogOut, Phone } from "lucide-react";
 import Link from "next/link";
-import { FlowButton } from "@/components/ui/flow-button";
+import { TextureButton } from "@/components/ui/texture-button";
 import { VerifiedBadge } from "@/components/ui/verified-badge";
 
 export function UserNav() {
@@ -32,11 +32,12 @@ export function UserNav() {
   if (!user) {
     return (
       <Link href="/login" className="shrink-0 inline-block">
-        <FlowButton
-          text="Login"
-          variant="black"
-          className="h-8 py-1 px-5 text-xs font-semibold rounded-full"
-        />
+        <TextureButton
+          size="sm"
+          className="shadow-2xs font-semibold"
+        >
+          Login
+        </TextureButton>
       </Link>
     );
   }

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FlowButton } from "@/components/ui/flow-button";
+import { TextureButton } from "@/components/ui/texture-button";
 import { HighlightText } from "@/components/ui/highlight-text";
 
 export default function CallToAction() {
@@ -15,11 +15,9 @@ export default function CallToAction() {
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link href="/dashboard">
-              <FlowButton
-                text="Browse Companies"
-                variant="black"
-                className="h-11 px-8 text-sm"
-              />
+              <TextureButton size="lg" className="shadow-md hover:shadow-lg transition-all">
+                Browse Companies
+              </TextureButton>
             </Link>
           </div>
         </div>

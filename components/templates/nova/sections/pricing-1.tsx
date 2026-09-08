@@ -8,6 +8,7 @@ import { Briefcase, CheckCheck, Database, Server, Sparkles } from "lucide-react"
 import { motion } from "motion/react";
 import { useRef, useState } from "react";
 import Link from "next/link";
+import { TextureButton } from "@/components/ui/texture-button";
 
 const plans = [
   {
@@ -264,16 +265,13 @@ export default function PricingSection5() {
                 <CardContent className="p-6 sm:p-7 pt-0 flex flex-col justify-between flex-grow">
                   {/* Action CTA Button */}
                   <Link href="/dashboard" className="block w-full mb-6">
-                    <button
-                      type="button"
-                      className={`w-full p-3 sm:p-3.5 text-sm sm:text-base font-semibold rounded-xl cursor-pointer transition-all active:scale-95 shadow-sm ${
-                        plan.popular
-                          ? "bg-gradient-to-tr from-orange-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white shadow-orange-500/25 border border-orange-400"
-                          : "bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-white text-white dark:text-zinc-950 border border-transparent"
-                      }`}
+                    <TextureButton
+                      variant={plan.popular ? "orange" : "primary"}
+                      size="lg"
+                      className="w-full py-1 text-sm sm:text-base font-semibold shadow-sm"
                     >
                       {plan.buttonText}
-                    </button>
+                    </TextureButton>
                   </Link>
 
                   {/* Feature benefits list */}
