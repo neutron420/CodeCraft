@@ -76,13 +76,13 @@ export function NavbarSearch({ companies, currentCompanySlug }: NavbarSearchProp
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Search companies"
-        className="relative flex items-center gap-2 rounded-[2px] border border-zinc-200 dark:border-zinc-800/90 bg-white hover:bg-zinc-50 dark:bg-[#09090b] dark:hover:bg-zinc-900/80 text-muted-foreground text-xs transition-all cursor-pointer p-2 sm:px-3 sm:py-1.5 sm:w-[220px] md:w-[250px] overflow-hidden group shadow-2xs dark:shadow-none"
+        className="relative flex items-center gap-2 rounded-[2px] border border-zinc-800/90 bg-[#09090b] hover:bg-zinc-900/80 text-muted-foreground text-xs transition-all cursor-pointer p-2 sm:px-3 sm:py-1.5 sm:w-[220px] md:w-[250px] overflow-hidden group shadow-none"
       >
         {/* Specular top border highlight */}
-        <div className="hidden dark:block absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none rounded-t-[2px]" />
-        <Search className="size-3.5 shrink-0 text-zinc-400 dark:text-zinc-500" />
-        <span className="hidden sm:inline truncate text-zinc-500 dark:text-zinc-400 text-xs">Search companies...</span>
-        <kbd className="hidden sm:inline-flex ml-auto text-[10px] text-zinc-400 dark:text-zinc-500 font-mono bg-zinc-100 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800/80 px-1.5 py-0.5 rounded-[2px] pointer-events-none">
+        <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none rounded-t-[2px]" />
+        <Search className="size-3.5 shrink-0 text-zinc-500" />
+        <span className="hidden sm:inline truncate text-zinc-500 text-xs">Search companies...</span>
+        <kbd className="hidden sm:inline-flex ml-auto text-[10px] text-zinc-500 font-mono bg-zinc-900/80 border border-zinc-800/80 px-1.5 py-0.5 rounded-[2px] pointer-events-none">
           ⌘K
         </kbd>
       </button>
