@@ -4,7 +4,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/lib/context/auth-context";
 import { Toaster } from "@/components/ui/sonner";
 import { Metadata } from "next";
-import Script from "next/script";
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -35,11 +34,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <Script
+        <meta name="google-adsense-account" content="ca-pub-7449708956977518" />
+        <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7449708956977518"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
         />
       </head>
       <body className={`${fontSans.variable} ${fontHeading.variable} antialiased`}>
