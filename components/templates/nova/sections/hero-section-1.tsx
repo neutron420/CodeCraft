@@ -13,6 +13,7 @@ import { AtCoder } from "../svgs/atcoder";
 import { CSES } from "../svgs/cses";
 import { GeeksForGeeks } from "../svgs/geeksforgeeks";
 import { TopCoder } from "../svgs/topcoder";
+import { Plus } from "lucide-react";
 
 export default function HeroSection() {
   const router = useRouter();
@@ -199,6 +200,171 @@ export default function HeroSection() {
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 95vw, 1200px"
                     />
                   </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 4. COMPANIES & INFRASTRUCTURE BANNER (MATCHING REFERENCE SPEC) */}
+            <div className="mt-12 sm:mt-16 md:mt-20 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+              <p className="text-center text-xs font-medium text-muted-foreground tracking-wide mb-3 sm:mb-4">
+                Some of the companies &amp; infrastructure powering CodeCraft
+              </p>
+
+              {/* Technical dark dashed grid container with '+' corner crosshairs */}
+              <div className="relative border border-dashed border-zinc-800/90 dark:border-zinc-700/90 bg-card/60 rounded-sm">
+                {/* Corner '+' cross markers (bold & dark matching reference) */}
+                <span
+                  aria-hidden="true"
+                  className="absolute -top-2.5 -left-2.5 size-5 flex items-center justify-center font-mono text-sm font-black leading-none text-zinc-800 dark:text-zinc-200 bg-background select-none pointer-events-none"
+                >
+                  +
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="absolute -top-2.5 -right-2.5 size-5 flex items-center justify-center font-mono text-sm font-black leading-none text-zinc-800 dark:text-zinc-200 bg-background select-none pointer-events-none"
+                >
+                  +
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="absolute -bottom-2.5 -left-2.5 size-5 flex items-center justify-center font-mono text-sm font-black leading-none text-zinc-800 dark:text-zinc-200 bg-background select-none pointer-events-none"
+                >
+                  +
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="absolute -bottom-2.5 -right-2.5 size-5 flex items-center justify-center font-mono text-sm font-black leading-none text-zinc-800 dark:text-zinc-200 bg-background select-none pointer-events-none"
+                >
+                  +
+                </span>
+
+                {/* 5 Column Grid with dark dashed dividers */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 divide-y sm:divide-y-0 sm:divide-x divide-dashed divide-zinc-800/90 dark:divide-zinc-700/90">
+                  {/* 1. Neon DB */}
+                  <a
+                    href="https://neon.tech"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-4 sm:p-5 hover:bg-muted/40 transition-colors group"
+                  >
+                    <div className="size-8 rounded-lg bg-white dark:bg-zinc-900 border border-border flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform overflow-hidden p-1.5 shadow-xs">
+                      <Image
+                        src="/logos/neondb.png"
+                        alt="Neon DB"
+                        width={32}
+                        height={32}
+                        className="size-full object-contain"
+                      />
+                    </div>
+                    <div className="flex flex-col min-w-0 text-left">
+                      <span className="text-xs sm:text-[13px] font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors truncate">
+                        Neon DB
+                      </span>
+                      <span className="text-[11px] text-muted-foreground leading-tight mt-0.5 truncate">
+                        Serverless Postgres
+                      </span>
+                    </div>
+                  </a>
+
+                  {/* 2. Upstash */}
+                  <a
+                    href="https://upstash.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-4 sm:p-5 hover:bg-muted/40 transition-colors group"
+                  >
+                    <div className="size-8 rounded-lg bg-white dark:bg-zinc-900 border border-border flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform overflow-hidden p-1.5 shadow-xs">
+                      <Image
+                        src="/logos/upstash.png"
+                        alt="Upstash"
+                        width={32}
+                        height={32}
+                        className="size-full object-contain"
+                      />
+                    </div>
+                    <div className="flex flex-col min-w-0 text-left">
+                      <span className="text-xs sm:text-[13px] font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors truncate">
+                        Upstash
+                      </span>
+                      <span className="text-[11px] text-muted-foreground leading-tight mt-0.5 truncate">
+                        Serverless Data
+                      </span>
+                    </div>
+                  </a>
+
+                  {/* 3. Cloudflare */}
+                  <a
+                    href="https://cloudflare.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-4 sm:p-5 hover:bg-muted/40 transition-colors group"
+                  >
+                    <div className="size-8 rounded-lg bg-white dark:bg-zinc-900 border border-border flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform overflow-hidden p-1.5 shadow-xs">
+                      <Image
+                        src="/logos/cloudflare.png"
+                        alt="Cloudflare"
+                        width={32}
+                        height={32}
+                        className="size-full object-contain"
+                      />
+                    </div>
+                    <div className="flex flex-col min-w-0 text-left">
+                      <span className="text-xs sm:text-[13px] font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors truncate">
+                        Cloudflare
+                      </span>
+                      <span className="text-[11px] text-muted-foreground leading-tight mt-0.5 truncate">
+                        Edge Network
+                      </span>
+                    </div>
+                  </a>
+
+                  {/* 4. Google AdSense */}
+                  <a
+                    href="https://adsense.google.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-4 sm:p-5 hover:bg-muted/40 transition-colors group"
+                  >
+                    <div className="size-8 rounded-lg bg-white dark:bg-zinc-900 border border-border flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform overflow-hidden p-1.5 shadow-xs">
+                      <Image
+                        src="/logos/google-adsense.png"
+                        alt="Google AdSense"
+                        width={32}
+                        height={32}
+                        className="size-full object-contain"
+                      />
+                    </div>
+                    <div className="flex flex-col min-w-0 text-left">
+                      <span className="text-xs sm:text-[13px] font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors truncate">
+                        Google AdSense
+                      </span>
+                      <span className="text-[11px] text-muted-foreground leading-tight mt-0.5 truncate">
+                        Ad Partner
+                      </span>
+                    </div>
+                  </a>
+
+                  {/* 5. Vercel */}
+                  <a
+                    href="https://vercel.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-4 sm:p-5 hover:bg-muted/40 transition-colors group"
+                  >
+                    <div className="size-8 rounded-lg bg-white dark:bg-zinc-900 border border-border flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-xs">
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="size-4 text-foreground">
+                        <path d="M12 2L24 22H0L12 2Z" />
+                      </svg>
+                    </div>
+                    <div className="flex flex-col min-w-0 text-left">
+                      <span className="text-xs sm:text-[13px] font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors truncate">
+                        Vercel
+                      </span>
+                      <span className="text-[11px] text-muted-foreground leading-tight mt-0.5 truncate">
+                        Edge Platform
+                      </span>
+                    </div>
+                  </a>
                 </div>
               </div>
             </div>
