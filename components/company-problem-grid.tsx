@@ -657,10 +657,10 @@ export function CompanyProblemGrid({ problems, companyName, companySlug }: Compa
       </div>
 
       {/* ========================================================================= */}
-      {/* 2. SEARCH — SLIM, COMPACT & MOBILE OPTIMIZED                             */}
+      {/* 2. SEARCH — COMPACT & MINIMAL (MATCHING REFERENCE)                        */}
       {/* ========================================================================= */}
       <div className="relative w-full">
-        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground/80 pointer-events-none" />
+        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-zinc-500 dark:text-zinc-500 pointer-events-none stroke-[1.75]" />
         <input
           ref={searchInputRef}
           type="text"
@@ -670,24 +670,26 @@ export function CompanyProblemGrid({ problems, companyName, companySlug }: Compa
             setCurrentPage(1);
           }}
           placeholder="Search problems, topics, number..."
-          className="w-full h-8 sm:h-8.5 pl-8 pr-10 sm:pr-12 rounded-md border border-border/80 dark:border-zinc-800/90 bg-card dark:bg-zinc-950/80 text-foreground text-xs sm:text-[13px] focus:outline-none focus:ring-1 focus:ring-primary/40 focus:border-primary transition-all placeholder:text-muted-foreground/60 shadow-2xs"
+          className="w-full h-8.5 sm:h-9 pl-8.5 pr-8 rounded-[2px] border border-zinc-800 dark:border-zinc-800 bg-background dark:bg-background text-foreground text-xs sm:text-[13px] placeholder:text-zinc-500 dark:placeholder:text-zinc-500 focus:outline-none focus:ring-0 focus:border-zinc-600 dark:focus:border-zinc-600 transition-colors shadow-none"
         />
 
-        <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+        <div className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-1">
           {search ? (
             <button
               type="button"
               onClick={() => {
                 setSearch("");
                 setCurrentPage(1);
+                searchInputRef.current?.focus();
               }}
-              className="p-1 rounded text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
+              className="p-0.5 text-zinc-500 hover:text-zinc-300 transition-colors cursor-pointer"
               title="Clear search"
+              aria-label="Clear search"
             >
-              <X className="size-3" />
+              <X className="size-3.5" />
             </button>
           ) : (
-            <kbd className="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.2 text-[9.5px] font-mono text-muted-foreground/70 bg-muted/70 border border-border/80 rounded">
+            <kbd className="hidden sm:inline-flex items-center justify-center px-1.5 py-0.5 text-[10px] font-mono text-zinc-500 dark:text-zinc-500 bg-zinc-900/60 dark:bg-zinc-900/60 border border-zinc-800/80 rounded-[2px] select-none pointer-events-none">
               <span>/</span>
             </kbd>
           )}
