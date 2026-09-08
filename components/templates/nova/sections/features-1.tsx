@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Shield } from "lucide-react";
+import { HighlightText } from "@/components/ui/highlight-text";
 import { LeetCode } from "../svgs/leetcode";
 import { Codeforces } from "../svgs/codeforces";
 import { CodeChef } from "../svgs/codechef";
@@ -13,10 +14,10 @@ export default function Features() {
       <div className="mx-auto max-w-3xl px-6">
         <div>
           <h2 className="text-balance font-serif text-4xl font-medium">
-            Everything you need to prep, in one place
+            Everything you need to prep, <HighlightText variant="orange">in one place</HighlightText>
           </h2>
           <p className="text-muted-foreground mt-4 text-balance">
-            690+ companies, 15,000+ questions, 74 topics. Filter, solve, and track
+            <HighlightText variant="yellow" className="opacity-80">690+ companies</HighlightText>, 15,000+ questions, 74 topics. Filter, solve, and track
             your progress.
           </p>
         </div>

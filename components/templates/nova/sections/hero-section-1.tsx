@@ -14,6 +14,7 @@ import { CSES } from "../svgs/cses";
 import { GeeksForGeeks } from "../svgs/geeksforgeeks";
 import { TopCoder } from "../svgs/topcoder";
 import { Plus } from "lucide-react";
+import { HighlightText } from "@/components/ui/highlight-text";
 
 export default function HeroSection() {
   const router = useRouter();
@@ -79,7 +80,8 @@ export default function HeroSection() {
                 <span className="text-orange-500 font-normal sm:font-medium">company by company.</span>
               </h1>
               <p className="text-muted-foreground mt-4 sm:mt-5 text-balance text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
-                15,000+ interview questions &amp; 3,200+ DSA problems across 690+ companies, tagged by topic.
+                <HighlightText variant="orange" className="opacity-80">15,000+ interview questions</HighlightText> &amp; 3,200+ DSA problems across{" "}
+                <HighlightText variant="yellow" className="opacity-80">690+ companies</HighlightText>, tagged by topic.
                 Tick off what you solve.
               </p>
 

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FlowButton } from "@/components/ui/flow-button";
+import { HighlightText } from "@/components/ui/highlight-text";
 
 export default function CallToAction() {
   return (
@@ -7,10 +8,10 @@ export default function CallToAction() {
       <div className="mx-auto max-w-2xl px-6">
         <div className="text-center">
           <h2 className="text-balance font-serif text-4xl font-medium">
-            Ready to Get Started?
+            Ready to <HighlightText variant="orange">Get Started?</HighlightText>
           </h2>
           <p className="text-muted-foreground mx-auto mt-4 max-w-md text-balance">
-            Free and open for everyone. Explore questions from 690+ companies, track your solved progress, and crack your upcoming coding rounds.
+            <HighlightText variant="yellow" className="opacity-85">Free and open</HighlightText> for everyone. Explore questions from 690+ companies, track your solved progress, and crack your upcoming coding rounds.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link href="/dashboard">

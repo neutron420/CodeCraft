@@ -20,7 +20,7 @@ export function HighlightText({
   children,
   className,
   textClassName,
-  variant = "lime",
+  variant = "orange",
 }: HighlightTextProps) {
   return (
     <span className="relative inline-block px-1">

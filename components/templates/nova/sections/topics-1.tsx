@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
+import { HighlightText } from "@/components/ui/highlight-text";
 
 const FALLBACK_TOPICS = [
   { id: 1, name: "Array", _count: { problems: 850 } },
@@ -48,11 +49,11 @@ export default async function Topics() {
       <div className="mx-auto max-w-3xl px-6">
         <div>
           <h2 className="text-balance font-serif text-4xl font-medium">
-            Know what each question tests
+            Know what each question <HighlightText variant="orange">tests</HighlightText>
           </h2>
           <p className="text-muted-foreground mt-4 max-w-xl text-balance">
             Every one of the {problemCount.toLocaleString()} problems across{" "}
-            {companyCount.toLocaleString()} companies is tagged by topic, so you
+            <HighlightText variant="yellow" className="opacity-85">{companyCount.toLocaleString()} companies</HighlightText> is tagged by topic, so you
             can drill into a single pattern at a time.
           </p>
         </div>
