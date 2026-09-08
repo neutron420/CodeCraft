@@ -6,6 +6,7 @@ import Footer from "@/components/templates/nova/sections/footer-1";
 import HeroSection from "@/components/templates/nova/sections/hero-section-1";
 import Pricing from "@/components/templates/nova/sections/pricing-1";
 import Topics from "@/components/templates/nova/sections/topics-1";
+import Testimonials from "@/components/templates/nova/sections/testimonials-1";
 
 export const dynamic = "force-dynamic";
 
@@ -23,6 +24,7 @@ export default function Landing() {
       <Topics />
       <Content />
       <Pricing />
+      <Testimonials />
       <FAQs />
       <CallToAction />
       <Footer />
