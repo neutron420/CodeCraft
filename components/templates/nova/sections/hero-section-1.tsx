@@ -238,149 +238,14 @@ export default function HeroSection() {
                   +
                 </span>
 
-                {/* Mobile / Tablet View (<lg): 3 partners in upper row, 2 in next row (matching user request) */}
-                <div className="lg:hidden">
-                  {/* Upper Row: 3 items */}
-                  <div className="grid grid-cols-3 divide-x divide-dashed divide-zinc-800/90 dark:divide-zinc-700/90 border-b border-dashed border-zinc-800/90 dark:border-zinc-700/90">
-                    {/* 1. Neon DB */}
-                    <a
-                      href="https://neon.tech"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-4 hover:bg-muted/40 transition-colors group min-w-0"
-                    >
-                      <div className="size-7 sm:size-8 rounded-lg bg-white dark:bg-zinc-900 border border-border flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform overflow-hidden p-1 sm:p-1.5 shadow-xs">
-                        <Image
-                          src="/logos/neondb.png"
-                          alt="Neon DB"
-                          width={32}
-                          height={32}
-                          className="size-full object-contain"
-                        />
-                      </div>
-                      <div className="flex flex-col min-w-0 text-left">
-                        <span className="text-[11px] sm:text-xs md:text-[13px] font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors truncate">
-                          Neon DB
-                        </span>
-                        <span className="text-[9px] sm:text-[10px] md:text-[11px] text-muted-foreground leading-tight mt-0.5 truncate">
-                          Postgres
-                        </span>
-                      </div>
-                    </a>
-
-                    {/* 2. Upstash */}
-                    <a
-                      href="https://upstash.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-4 hover:bg-muted/40 transition-colors group min-w-0"
-                    >
-                      <div className="size-7 sm:size-8 rounded-lg bg-white dark:bg-zinc-900 border border-border flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform overflow-hidden p-1 sm:p-1.5 shadow-xs">
-                        <Image
-                          src="/logos/upstash.png"
-                          alt="Upstash"
-                          width={32}
-                          height={32}
-                          className="size-full object-contain"
-                        />
-                      </div>
-                      <div className="flex flex-col min-w-0 text-left">
-                        <span className="text-[11px] sm:text-xs md:text-[13px] font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors truncate">
-                          Upstash
-                        </span>
-                        <span className="text-[9px] sm:text-[10px] md:text-[11px] text-muted-foreground leading-tight mt-0.5 truncate">
-                          Serverless Data
-                        </span>
-                      </div>
-                    </a>
-
-                    {/* 3. Cloudflare */}
-                    <a
-                      href="https://cloudflare.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-4 hover:bg-muted/40 transition-colors group min-w-0"
-                    >
-                      <div className="size-7 sm:size-8 rounded-lg bg-white dark:bg-zinc-900 border border-border flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform overflow-hidden p-1 sm:p-1.5 shadow-xs">
-                        <Image
-                          src="/logos/cloudflare.png"
-                          alt="Cloudflare"
-                          width={32}
-                          height={32}
-                          className="size-full object-contain"
-                        />
-                      </div>
-                      <div className="flex flex-col min-w-0 text-left">
-                        <span className="text-[11px] sm:text-xs md:text-[13px] font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors truncate">
-                          Cloudflare
-                        </span>
-                        <span className="text-[9px] sm:text-[10px] md:text-[11px] text-muted-foreground leading-tight mt-0.5 truncate">
-                          Edge Network
-                        </span>
-                      </div>
-                    </a>
-                  </div>
-
-                  {/* Next Row: 2 items */}
-                  <div className="grid grid-cols-2 divide-x divide-dashed divide-zinc-800/90 dark:divide-zinc-700/90">
-                    {/* 4. Google AdSense */}
-                    <a
-                      href="https://adsense.google.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2.5 sm:gap-3 p-3 sm:p-4 hover:bg-muted/40 transition-colors group min-w-0"
-                    >
-                      <div className="size-7 sm:size-8 rounded-lg bg-white dark:bg-zinc-900 border border-border flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform overflow-hidden p-1.5 shadow-xs">
-                        <Image
-                          src="/logos/google-adsense.png"
-                          alt="Google AdSense"
-                          width={32}
-                          height={32}
-                          className="size-full object-contain"
-                        />
-                      </div>
-                      <div className="flex flex-col min-w-0 text-left">
-                        <span className="text-xs sm:text-[13px] font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors truncate">
-                          Google AdSense
-                        </span>
-                        <span className="text-[10px] sm:text-[11px] text-muted-foreground leading-tight mt-0.5 truncate">
-                          Ad Partner
-                        </span>
-                      </div>
-                    </a>
-
-                    {/* 5. Vercel */}
-                    <a
-                      href="https://vercel.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2.5 sm:gap-3 p-3 sm:p-4 hover:bg-muted/40 transition-colors group min-w-0"
-                    >
-                      <div className="size-7 sm:size-8 rounded-lg bg-white dark:bg-zinc-900 border border-border flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-xs">
-                        <svg viewBox="0 0 24 24" fill="currentColor" className="size-4 text-foreground">
-                          <path d="M12 2L24 22H0L12 2Z" />
-                        </svg>
-                      </div>
-                      <div className="flex flex-col min-w-0 text-left">
-                        <span className="text-xs sm:text-[13px] font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors truncate">
-                          Vercel
-                        </span>
-                        <span className="text-[10px] sm:text-[11px] text-muted-foreground leading-tight mt-0.5 truncate">
-                          Edge Platform
-                        </span>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-
-                {/* Desktop View (>=lg): 5 Column Grid with dark dashed dividers */}
-                <div className="hidden lg:grid grid-cols-5 divide-x divide-dashed divide-zinc-800/90 dark:divide-zinc-700/90">
+                {/* 5 Partners Grid: 1 after another on mobile (matching ossium.in), 5 columns on desktop */}
+                <div className="grid grid-cols-1 lg:grid-cols-5 divide-y lg:divide-y-0 lg:divide-x divide-dashed divide-zinc-800/90 dark:divide-zinc-700/90">
                   {/* 1. Neon DB */}
                   <a
                     href="https://neon.tech"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-4 sm:p-5 hover:bg-muted/40 transition-colors group"
+                    className="flex items-center gap-3.5 p-4 sm:p-5 hover:bg-muted/40 transition-colors group"
                   >
                     <div className="size-8 rounded-lg bg-white dark:bg-zinc-900 border border-border flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform overflow-hidden p-1.5 shadow-xs">
                       <Image
@@ -392,10 +257,10 @@ export default function HeroSection() {
                       />
                     </div>
                     <div className="flex flex-col min-w-0 text-left">
-                      <span className="text-xs sm:text-[13px] font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors truncate">
+                      <span className="text-sm lg:text-[13px] font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors truncate">
                         Neon DB
                       </span>
-                      <span className="text-[11px] text-muted-foreground leading-tight mt-0.5 truncate">
+                      <span className="text-xs lg:text-[11px] text-muted-foreground leading-tight mt-0.5 truncate">
                         Serverless Postgres
                       </span>
                     </div>
@@ -406,7 +271,7 @@ export default function HeroSection() {
                     href="https://upstash.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-4 sm:p-5 hover:bg-muted/40 transition-colors group"
+                    className="flex items-center gap-3.5 p-4 sm:p-5 hover:bg-muted/40 transition-colors group"
                   >
                     <div className="size-8 rounded-lg bg-white dark:bg-zinc-900 border border-border flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform overflow-hidden p-1.5 shadow-xs">
                       <Image
@@ -418,10 +283,10 @@ export default function HeroSection() {
                       />
                     </div>
                     <div className="flex flex-col min-w-0 text-left">
-                      <span className="text-xs sm:text-[13px] font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors truncate">
+                      <span className="text-sm lg:text-[13px] font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors truncate">
                         Upstash
                       </span>
-                      <span className="text-[11px] text-muted-foreground leading-tight mt-0.5 truncate">
+                      <span className="text-xs lg:text-[11px] text-muted-foreground leading-tight mt-0.5 truncate">
                         Serverless Data
                       </span>
                     </div>
@@ -432,7 +297,7 @@ export default function HeroSection() {
                     href="https://cloudflare.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-4 sm:p-5 hover:bg-muted/40 transition-colors group"
+                    className="flex items-center gap-3.5 p-4 sm:p-5 hover:bg-muted/40 transition-colors group"
                   >
                     <div className="size-8 rounded-lg bg-white dark:bg-zinc-900 border border-border flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform overflow-hidden p-1.5 shadow-xs">
                       <Image
@@ -444,10 +309,10 @@ export default function HeroSection() {
                       />
                     </div>
                     <div className="flex flex-col min-w-0 text-left">
-                      <span className="text-xs sm:text-[13px] font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors truncate">
+                      <span className="text-sm lg:text-[13px] font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors truncate">
                         Cloudflare
                       </span>
-                      <span className="text-[11px] text-muted-foreground leading-tight mt-0.5 truncate">
+                      <span className="text-xs lg:text-[11px] text-muted-foreground leading-tight mt-0.5 truncate">
                         Edge Network
                       </span>
                     </div>
@@ -458,7 +323,7 @@ export default function HeroSection() {
                     href="https://adsense.google.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-4 sm:p-5 hover:bg-muted/40 transition-colors group"
+                    className="flex items-center gap-3.5 p-4 sm:p-5 hover:bg-muted/40 transition-colors group"
                   >
                     <div className="size-8 rounded-lg bg-white dark:bg-zinc-900 border border-border flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform overflow-hidden p-1.5 shadow-xs">
                       <Image
@@ -470,10 +335,10 @@ export default function HeroSection() {
                       />
                     </div>
                     <div className="flex flex-col min-w-0 text-left">
-                      <span className="text-xs sm:text-[13px] font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors truncate">
+                      <span className="text-sm lg:text-[13px] font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors truncate">
                         Google AdSense
                       </span>
-                      <span className="text-[11px] text-muted-foreground leading-tight mt-0.5 truncate">
+                      <span className="text-xs lg:text-[11px] text-muted-foreground leading-tight mt-0.5 truncate">
                         Ad Partner
                       </span>
                     </div>
@@ -484,7 +349,7 @@ export default function HeroSection() {
                     href="https://vercel.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-4 sm:p-5 hover:bg-muted/40 transition-colors group"
+                    className="flex items-center gap-3.5 p-4 sm:p-5 hover:bg-muted/40 transition-colors group"
                   >
                     <div className="size-8 rounded-lg bg-white dark:bg-zinc-900 border border-border flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-xs">
                       <svg viewBox="0 0 24 24" fill="currentColor" className="size-4 text-foreground">
@@ -492,10 +357,10 @@ export default function HeroSection() {
                       </svg>
                     </div>
                     <div className="flex flex-col min-w-0 text-left">
-                      <span className="text-xs sm:text-[13px] font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors truncate">
+                      <span className="text-sm lg:text-[13px] font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors truncate">
                         Vercel
                       </span>
-                      <span className="text-[11px] text-muted-foreground leading-tight mt-0.5 truncate">
+                      <span className="text-xs lg:text-[11px] text-muted-foreground leading-tight mt-0.5 truncate">
                         Edge Platform
                       </span>
                     </div>
