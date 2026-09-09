@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/lib/context/auth-context";
 import { Toaster } from "@/components/ui/sonner";
 import { Metadata } from "next";
+import { GoogleAdSenseClient } from "@/components/ads/google-adsense";
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -35,11 +36,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="google-adsense-account" content="ca-pub-7449708956977518" />
-        <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7449708956977518"
-          crossOrigin="anonymous"
-        />
+        <GoogleAdSenseClient />
       </head>
       <body className={`${fontSans.variable} ${fontHeading.variable} antialiased`}>
         <AuthProvider>

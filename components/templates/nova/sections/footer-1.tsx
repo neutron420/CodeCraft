@@ -3,10 +3,10 @@ import { KodePrepLogo } from '@/components/kodeprep-logo'
 
 const links = {
     product: [
-        { label: 'Features', href: '#features' },
-        { label: 'Topics', href: '#topics' },
-        { label: 'Pricing', href: '#pricing' },
-        { label: 'FAQs', href: '#faqs' },
+        { label: 'Features', href: '/#features' },
+        { label: 'Topics', href: '/#topics' },
+        { label: 'Pricing', href: '/#pricing' },
+        { label: 'FAQs', href: '/#faqs' },
     ],
     platforms: [
         { label: 'LeetCode', href: 'https://leetcode.com' },
@@ -15,14 +15,15 @@ const links = {
         { label: 'CSES', href: 'https://cses.fi' },
     ],
     resources: [
-        { label: 'Companies', href: '#features' },
-        { label: 'Topics', href: '#topics' },
-        { label: 'Pricing', href: '#pricing' },
-        { label: 'Support', href: '#faqs' },
+        { label: 'Study Guides', href: '/guides' },
+        { label: 'About Us', href: '/about' },
+        { label: 'Support', href: '/contact' },
+        { label: 'Practice Problems', href: '/dashboard' },
     ],
     legal: [
-        { label: 'Privacy', href: '#' },
-        { label: 'Terms', href: '#' },
+        { label: 'Privacy Policy', href: '/privacy' },
+        { label: 'Terms of Service', href: '/terms' },
+        { label: 'Contact', href: '/contact' },
     ],
 }
 
