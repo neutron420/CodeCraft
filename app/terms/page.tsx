@@ -5,9 +5,9 @@ import Link from "next/link";
 import { FileText, CheckCircle2, AlertCircle, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Terms of Service | CodePrep - Coding Interview Prep",
+  title: "Terms of Service | Algoryn - Coding Interview Prep",
   description:
-    "Review the Terms of Service governing your use of the CodePrep interview preparation platform, resources, and algorithms tracker.",
+    "Review the Terms of Service governing your use of the Algoryn interview preparation platform, resources, and algorithms tracker.",
 };
 
 export default function TermsOfServicePage() {
@@ -29,7 +29,7 @@ export default function TermsOfServicePage() {
               Terms of Service
             </h1>
             <p className="text-muted-foreground text-sm sm:text-base max-w-xl mx-auto">
-              Please read these Terms of Service carefully before using the CodePrep website and interview preparation tools.
+              Please read these Terms of Service carefully before using the Algoryn website and interview preparation tools.
             </p>
             <p className="text-xs text-muted-foreground/80 mt-3">
               Effective Date: <span className="font-medium text-foreground">{lastUpdated}</span>
@@ -45,7 +45,7 @@ export default function TermsOfServicePage() {
                 Acceptance of Terms
               </h2>
               <p className="mb-3">
-                By accessing, browsing, or using the <strong>CodePrep</strong> platform (accessible via <em>codeprep.app</em> or associated domains), you acknowledge that you have read, understood, and agreed to be bound by these Terms of Service and our associated Privacy Policy.
+                By accessing, browsing, or using the <strong>Algoryn</strong> platform (accessible via <em>algoryn.me</em> or associated domains), you acknowledge that you have read, understood, and agreed to be bound by these Terms of Service and our associated Privacy Policy.
               </p>
               <p>
                 If you do not agree to all terms and conditions stated herein, please do not access or use any part of the service.
@@ -59,10 +59,10 @@ export default function TermsOfServicePage() {
                 Educational Purpose & Scope
               </h2>
               <p className="mb-3">
-                CodePrep provides coding practice problem lists, algorithmic explanations, interview pattern guides, and progress tracking tools designed strictly for individual educational and self-study purposes.
+                Algoryn provides coding practice problem lists, algorithmic explanations, interview pattern guides, and progress tracking tools designed strictly for individual educational and self-study purposes.
               </p>
               <p>
-                CodePrep is an independent educational platform. All references to companies (e.g., Google, Meta, Amazon, Microsoft, Apple, Netflix) or external coding judges (e.g., LeetCode, Codeforces, HackerRank) are solely for descriptive, educational categorization of common interview problem topics and do not imply sponsorship or endorsement by those entities.
+                Algoryn is an independent educational platform. All references to companies (e.g., Google, Meta, Amazon, Microsoft, Apple, Netflix) or external coding judges (e.g., LeetCode, Codeforces, HackerRank) are solely for descriptive, educational categorization of common interview problem topics and do not imply sponsorship or endorsement by those entities.
               </p>
             </section>
 
@@ -92,7 +92,7 @@ export default function TermsOfServicePage() {
                 Intellectual Property
               </h2>
               <p>
-                All original software, graphics, branding, design elements, curated curriculum structures, and visual interfaces created by CodePrep are the proprietary property of CodePrep. Users may access and use these materials solely for their personal, non-commercial interview preparation.
+                All original software, graphics, branding, design elements, curated curriculum structures, and visual interfaces created by Algoryn are the proprietary property of Algoryn. Users may access and use these materials solely for their personal, non-commercial interview preparation.
               </p>
             </section>
 
@@ -103,10 +103,10 @@ export default function TermsOfServicePage() {
                 Disclaimers & Limitations of Liability
               </h2>
               <p className="mb-3">
-                CodePrep is provided on an &quot;AS IS&quot; and &quot;AS AVAILABLE&quot; basis without warranties of any kind, whether express or implied. While we strive to maintain accurate, high-quality interview preparation questions, we make no guarantee of employment outcomes or specific interview performance.
+                Algoryn is provided on an &quot;AS IS&quot; and &quot;AS AVAILABLE&quot; basis without warranties of any kind, whether express or implied. While we strive to maintain accurate, high-quality interview preparation questions, we make no guarantee of employment outcomes or specific interview performance.
               </p>
               <p>
-                In no event shall CodePrep or its operators be liable for any indirect, incidental, special, consequential, or punitive damages arising out of your access or inability to access the platform.
+                In no event shall Algoryn or its operators be liable for any indirect, incidental, special, consequential, or punitive damages arising out of your access or inability to access the platform.
               </p>
             </section>
 

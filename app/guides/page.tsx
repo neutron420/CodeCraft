@@ -16,9 +16,9 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Coding Interview Guides & DSA Roadmaps | CodePrep",
+  title: "Coding Interview Guides & DSA Roadmaps | Algoryn",
   description:
-    "Master the top algorithmic patterns, FAANG company interview breakdown guides, and DSA study roadmaps with CodePrep's curated educational articles.",
+    "Master the top algorithmic patterns, FAANG company interview breakdown guides, and DSA study roadmaps with Algoryn's curated educational articles.",
 };
 
 const guides = [

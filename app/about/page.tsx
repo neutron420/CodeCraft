@@ -5,9 +5,9 @@ import Link from "next/link";
 import { Code2, Target, Users2, Sparkles, BookOpen, CheckCircle2, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "About Us | CodePrep - Company-wise Coding Interview Prep",
+  title: "About Us | Algoryn - Company-wise Coding Interview Prep",
   description:
-    "Discover the story behind CodePrep, our engineering curriculum, and our mission to help software developers ace tech coding interviews with structured, company-targeted practice.",
+    "Discover the story behind Algoryn, our engineering curriculum, and our mission to help software developers ace tech coding interviews with structured, company-targeted practice.",
 };
 
 export default function AboutPage() {
@@ -24,7 +24,7 @@ export default function AboutPage() {
               <span>Our Story & Mission</span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
-              About CodePrep
+              About Algoryn
             </h1>
             <p className="text-muted-foreground text-sm sm:text-base max-w-2xl mx-auto">
               Empowering engineers worldwide to master data structures, algorithms, and technical interviews through structured, company-specific practice.
@@ -39,13 +39,13 @@ export default function AboutPage() {
                 <div className="flex items-center justify-center size-10 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400">
                   <Target className="size-5" />
                 </div>
-                <h2 className="text-2xl font-bold text-foreground">Why We Built CodePrep</h2>
+                <h2 className="text-2xl font-bold text-foreground">Why We Built Algoryn</h2>
               </div>
               <p className="mb-4">
                 Preparing for coding interviews at top tech companies (Google, Meta, Amazon, Microsoft, Netflix, Apple, and fast-growing startups) has become one of the most overwhelming hurdles for software engineers. With thousands of random algorithm problems floating on the internet, candidates spend hundreds of unproductive hours guessing which patterns truly matter.
               </p>
               <p>
-                <strong>CodePrep was built to eliminate the noise.</strong> Instead of solving hundreds of redundant questions, our platform categorizes problems by actual company interview frequencies, algorithmic archetypes, and optimal difficulty curves—allowing you to prepare smarter and land your dream job faster.
+                <strong>Algoryn was built to eliminate the noise.</strong> Instead of solving hundreds of redundant questions, our platform categorizes problems by actual company interview frequencies, algorithmic archetypes, and optimal difficulty curves—allowing you to prepare smarter and land your dream job faster.
               </p>
             </section>
 
@@ -93,7 +93,7 @@ export default function AboutPage() {
                 <div className="flex items-center justify-center size-10 rounded-xl bg-orange-500/10 text-orange-600 dark:text-orange-400">
                   <Users2 className="size-5" />
                 </div>
-                <h2 className="text-2xl font-bold text-foreground">Who CodePrep Is For</h2>
+                <h2 className="text-2xl font-bold text-foreground">Who Algoryn Is For</h2>
               </div>
               <ul className="list-disc pl-6 space-y-2 text-foreground/90">
                 <li><strong>Computer Science Students & Grads:</strong> Looking to break into their first software engineering internships or new-grad roles.</li>

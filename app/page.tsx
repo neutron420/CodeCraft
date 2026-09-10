@@ -13,7 +13,7 @@ import HowItWorks from "@/components/ui/how-it-works";
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "CodeCraft Company-wise Coding Interview Prep",
+  title: "Algoryn | Company-wise Coding Interview Prep",
   description:
     "Practice LeetCode problems by company, filter by topic, and track your solved progress.",
 };

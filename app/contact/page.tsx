@@ -43,7 +43,7 @@ export default function ContactPage() {
               <span>We Are Here to Help</span>
             </div>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-4">
-              Contact CodePrep Support
+              Contact Algoryn Support
             </h1>
             <p className="text-muted-foreground text-sm sm:text-base max-w-xl mx-auto">
               Have questions regarding our company problem roadmaps, bug reports, feature requests, or partnership inquiries? Send us a message anytime.
@@ -64,10 +64,10 @@ export default function ContactPage() {
                   Our engineering and support team reviews messages throughout the business day.
                 </p>
                 <a
-                  href="mailto:support@codeprep.app"
+                  href="mailto:support@algoryn.me"
                   className="text-orange-500 hover:underline font-medium text-sm inline-block"
                 >
-                  support@codeprep.app
+                  support@algoryn.me
                 </a>
               </div>
 
@@ -112,7 +112,7 @@ export default function ContactPage() {
                   </div>
                   <h3 className="text-xl font-bold text-foreground mb-2">Message Sent Successfully!</h3>
                   <p className="text-sm text-muted-foreground max-w-md mx-auto mb-6">
-                    Thank you for reaching out to CodePrep. We have received your inquiry and will follow up with you at <strong>{email}</strong> shortly.
+                    Thank you for reaching out to Algoryn. We have received your inquiry and will follow up with you at <strong>{email}</strong> shortly.
                   </p>
                   <button
                     onClick={() => {

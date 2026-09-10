@@ -165,7 +165,7 @@ const testimonials: Testimonial[] = [
     avatar: "/testimonials/pankajkumar_dev.jpg",
     quote: (
       <>
-        Prepped for Amazon SDE with CodeCraft questions. <HighlightText variant="orange">10/10 recommendation</HighlightText>!
+        Prepped for Amazon SDE with Algoryn questions. <HighlightText variant="orange">10/10 recommendation</HighlightText>!
       </>
     ),
   },
@@ -506,7 +506,7 @@ export default function Testimonials() {
             </HighlightText>{" "}
             on{" "}
             <HighlightText variant="cyan">
-              <span className="text-cyan-950 dark:text-cyan-950 font-bold">CodeCraft</span>
+              <span className="text-cyan-950 dark:text-cyan-950 font-bold">Algoryn</span>
             </HighlightText>
           </p>
         </div>

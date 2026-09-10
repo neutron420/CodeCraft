@@ -69,7 +69,7 @@ export default function HeroSection() {
                     className="size-4 rounded-full object-cover border border-orange-200 shrink-0"
                   />
                   <span className="text-zinc-950 group-hover:text-orange-950 text-[11.5px] sm:text-[12px] font-medium transition-colors leading-none">
-                    CodeCraft in Low Budget
+                    Algoryn in Low Budget
                   </span>
                 </a>
               </div>
@@ -194,7 +194,7 @@ export default function HeroSection() {
                   <div className="relative rounded-lg sm:rounded-xl overflow-hidden transition-all duration-300 flex items-center justify-center">
                     <Image
                       src="/banner1.png"
-                      alt="CodeCraft Company-wise Interview Platform Preview"
+                      alt="Algoryn Company-wise Interview Platform Preview"
                       width={1024}
                       height={660}
                       priority
@@ -210,7 +210,7 @@ export default function HeroSection() {
             {/* 4. COMPANIES & INFRASTRUCTURE BANNER (MATCHING REFERENCE SPEC) */}
             <div className="mt-12 sm:mt-16 md:mt-20 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
               <p className="text-center text-xs font-medium text-muted-foreground tracking-wide mb-3 sm:mb-4">
-                Some of the companies &amp; infrastructure powering CodeCraft
+                Some of the companies &amp; infrastructure powering Algoryn
               </p>
 
               {/* Technical dark dashed grid container with '+' corner crosshairs */}
@@ -241,8 +241,8 @@ export default function HeroSection() {
                   +
                 </span>
 
-                {/* 5 Partners Grid: 1 after another on mobile (matching ossium.in), 5 columns on desktop */}
-                <div className="grid grid-cols-1 lg:grid-cols-5 divide-y lg:divide-y-0 lg:divide-x divide-dashed divide-zinc-800/90 dark:divide-zinc-700/90">
+                {/* 6 Partners Grid: 1 after another on mobile, 6 columns on desktop */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 divide-y lg:divide-y-0 lg:divide-x divide-dashed divide-zinc-800/90 dark:divide-zinc-700/90">
                   {/* 1. Neon DB */}
                   <a
                     href="https://neon.tech"
@@ -295,7 +295,33 @@ export default function HeroSection() {
                     </div>
                   </a>
 
-                  {/* 3. Cloudflare */}
+                  {/* 3. Firebase */}
+                  <a
+                    href="https://firebase.google.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3.5 p-4 sm:p-5 hover:bg-muted/40 transition-colors group"
+                  >
+                    <div className="size-8 rounded-lg bg-white dark:bg-zinc-900 border border-border flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform overflow-hidden p-1.5 shadow-xs">
+                      <Image
+                        src="/logos/firebase.svg"
+                        alt="Firebase"
+                        width={32}
+                        height={32}
+                        className="size-full object-contain"
+                      />
+                    </div>
+                    <div className="flex flex-col min-w-0 text-left">
+                      <span className="text-sm lg:text-[13px] font-bold text-foreground leading-tight tracking-tight group-hover:text-primary transition-colors truncate">
+                        Firebase
+                      </span>
+                      <span className="text-xs lg:text-[11px] text-muted-foreground leading-tight mt-0.5 truncate">
+                        Auth &amp; Cloud
+                      </span>
+                    </div>
+                  </a>
+
+                  {/* 4. Cloudflare */}
                   <a
                     href="https://cloudflare.com"
                     target="_blank"
@@ -321,7 +347,7 @@ export default function HeroSection() {
                     </div>
                   </a>
 
-                  {/* 4. Google AdSense */}
+                  {/* 5. Google AdSense */}
                   <a
                     href="https://adsense.google.com"
                     target="_blank"
@@ -347,7 +373,7 @@ export default function HeroSection() {
                     </div>
                   </a>
 
-                  {/* 5. Vercel */}
+                  {/* 6. Vercel */}
                   <a
                     href="https://vercel.com"
                     target="_blank"

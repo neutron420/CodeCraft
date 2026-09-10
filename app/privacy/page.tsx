@@ -5,9 +5,9 @@ import Link from "next/link";
 import { ShieldCheck, Cookie, Lock, Eye, CheckCircle2, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | CodePrep - Coding Interview Prep",
+  title: "Privacy Policy | Algoryn - Coding Interview Prep",
   description:
-    "Learn how CodePrep collects, uses, and safeguards your personal information and our compliance with Google AdSense and international privacy standards.",
+    "Learn how Algoryn collects, uses, and safeguards your personal information and our compliance with Google AdSense and international privacy standards.",
 };
 
 export default function PrivacyPolicyPage() {
@@ -29,7 +29,7 @@ export default function PrivacyPolicyPage() {
               Privacy Policy
             </h1>
             <p className="text-muted-foreground text-sm sm:text-base max-w-xl mx-auto">
-              Your privacy and trust are paramount. Here is a transparent breakdown of how CodePrep collects, uses, and protects your information.
+              Your privacy and trust are paramount. Here is a transparent breakdown of how Algoryn collects, uses, and protects your information.
             </p>
             <p className="text-xs text-muted-foreground/80 mt-3">
               Last Revised: <span className="font-medium text-foreground">{lastUpdated}</span>
@@ -45,7 +45,7 @@ export default function PrivacyPolicyPage() {
                 Introduction & Overview
               </h2>
               <p className="mb-3">
-                Welcome to <strong>CodePrep</strong> (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;), operated at <em>codeprep.app</em>. CodePrep is an interview preparation platform designed to help software engineers practice company-wise coding questions, study data structures and algorithms, and track their problem-solving progress.
+                Welcome to <strong>Algoryn</strong> (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;), operated at <em>algoryn.me</em>. Algoryn is an interview preparation platform designed to help software engineers practice company-wise coding questions, study data structures and algorithms, and track their problem-solving progress.
               </p>
               <p>
                 This Privacy Policy explains how we collect, handle, process, and protect your information when you visit our website, register for an account, or use any of our educational services.
@@ -64,7 +64,7 @@ export default function PrivacyPolicyPage() {
                 </p>
                 <ul className="list-disc pl-6 space-y-2.5 my-3 text-foreground/90">
                   <li>
-                    <strong>Third-Party Vendor Cookies:</strong> Third-party vendors, including Google, use cookies (such as the Google DoubleClick cookie) to serve ads based on your prior visits to CodePrep and other websites across the Internet.
+                    <strong>Third-Party Vendor Cookies:</strong> Third-party vendors, including Google, use cookies (such as the Google DoubleClick cookie) to serve ads based on your prior visits to Algoryn and other websites across the Internet.
                   </li>
                   <li>
                     <strong>Personalized Advertising:</strong> Google&apos;s use of advertising cookies enables it and its partner networks to serve relevant ads to you based on your visits to our site and other destinations online.

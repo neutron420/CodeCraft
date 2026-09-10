@@ -653,7 +653,7 @@ export function KodePrepSidebar({ companies, selectedCompanySlug }: KodePrepSide
             className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground font-semibold text-xs transition-all shadow-xs cursor-pointer"
           >
             <LogIn className="size-3.5" />
-            <span>Login to CodeCraft</span>
+            <span>Login to Algoryn</span>
           </Link>
         )}
       </div>

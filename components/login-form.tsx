@@ -167,11 +167,11 @@ export function LoginForm({
       {/* Terms & Privacy Description */}
       <FieldDescription className="px-6 text-center text-xs text-muted-foreground">
         By clicking continue, you agree to our{" "}
-        <a href="#" className="underline hover:text-foreground">
+        <a href="/terms" className="underline hover:text-foreground">
           Terms of Service
         </a>{" "}
         and{" "}
-        <a href="#" className="underline hover:text-foreground">
+        <a href="/privacy" className="underline hover:text-foreground">
           Privacy Policy
         </a>
         .
