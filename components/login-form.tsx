@@ -30,26 +30,6 @@ export function LoginForm({
   const [activeProvider, setActiveProvider] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState("");
 
-  const getFriendlyErrorMessage = (err: unknown, provider: string) => {
-    if (typeof err === "object" && err !== null && "code" in err) {
-      const code = (err as { code: string }).code;
-      if (code === "auth/unauthorized-domain") {
-        return "This domain is not authorized in Firebase yet. Please add algoryn.me and www.algoryn.me in Firebase Console -> Authentication -> Settings -> Authorized domains.";
-      }
-      if (code === "auth/popup-closed-by-user") {
-        return "Sign-in popup was closed before completing.";
-      }
-      if (code === "auth/account-exists-with-different-credential") {
-        return "An account already exists with this email using Google. Please sign in with Google instead.";
-      }
-      if (code === "auth/operation-not-allowed") {
-        return `${provider} sign-in is not enabled in Firebase Console (Authentication -> Sign-in method).`;
-      }
-      return `Error (${code}): ${(err as { message?: string }).message || "Failed to sign in"}`;
-    }
-    return `${provider} sign-in was cancelled or failed. Please try again.`;
-  };
-
   const handleGoogleLogin = async () => {
     try {
       setIsLoading(true);
@@ -59,7 +39,7 @@ export function LoginForm({
       router.push("/dashboard");
     } catch (err: unknown) {
       console.error(err);
-      setErrorMsg(getFriendlyErrorMessage(err, "Google"));
+      setErrorMsg("Google sign-in was cancelled or failed. Please try again.");
     } finally {
       setIsLoading(false);
       setActiveProvider(null);
@@ -75,7 +55,7 @@ export function LoginForm({
       router.push("/dashboard");
     } catch (err: unknown) {
       console.error(err);
-      setErrorMsg(getFriendlyErrorMessage(err, "GitHub"));
+      setErrorMsg("GitHub sign-in was cancelled or failed. Please try again.");
     } finally {
       setIsLoading(false);
       setActiveProvider(null);
