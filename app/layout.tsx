@@ -30,6 +30,9 @@ export const metadata: Metadata = {
     shortcut: "/logos/algorynlog.png",
     apple: "/logos/algorynlog.png",
   },
+  verification: {
+    google: "sKduJUpBtwb0W5gAe9_Jr9uotMP45E7LVwBF0hQwsvI",
+  },
   other: {
     "google-adsense-account": "ca-pub-7449708956977518",
   },
