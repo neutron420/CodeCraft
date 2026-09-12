@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   Sidebar,
@@ -124,8 +124,19 @@ export function KodePrepSidebar({ companies, selectedCompanySlug }: KodePrepSide
   const { isMobile, setOpenMobile, toggleSidebar } = useSidebar();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [pendingCompanySlug, setPendingCompanySlug] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+
   const isBookmarksActive = searchParams.get("status") === "BOOKMARKED";
   const activeCompanySlug = searchParams.get("company") || selectedCompanySlug || "google";
+  const displayedCompanySlug = pendingCompanySlug || activeCompanySlug;
+
+  // Clear pending state once searchParams reflects the new company
+  useEffect(() => {
+    if (searchParams.get("company") === pendingCompanySlug) {
+      setPendingCompanySlug(null);
+    }
+  }, [searchParams, pendingCompanySlug]);
 
   // Group companies into defined categories
   const categorizedCompanies = useMemo(() => {
@@ -160,24 +171,37 @@ export function KodePrepSidebar({ companies, selectedCompanySlug }: KodePrepSide
   // Find which category contains the selected company
   const activeCategoryId = useMemo(() => {
     for (const cat of categorizedCompanies.categories) {
-      if (cat.items.some((c) => c.slug === activeCompanySlug)) {
+      if (cat.items.some((c) => c.slug === displayedCompanySlug)) {
         return cat.id;
       }
     }
-    if (categorizedCompanies.otherItems.some((c) => c.slug === activeCompanySlug)) {
+    if (categorizedCompanies.otherItems.some((c) => c.slug === displayedCompanySlug)) {
       return "__other";
     }
     return null;
-  }, [categorizedCompanies, activeCompanySlug]);
+  }, [categorizedCompanies, displayedCompanySlug]);
+
+  // Prefetch top companies in category as soon as category is viewed
+  useEffect(() => {
+    if (drilldownCategory && drilldownCategory.items.length > 0) {
+      drilldownCategory.items.slice(0, 4).forEach((c) => {
+        router.prefetch(`/dashboard?company=${c.slug}`);
+      });
+    }
+  }, [drilldownCategory, router]);
 
   const selectCompany = (slug: string) => {
+    if (slug === displayedCompanySlug) return;
+    setPendingCompanySlug(slug);
     if (typeof window !== "undefined") {
       window.dispatchEvent(new CustomEvent("company-switch-start", { detail: slug }));
     }
-    router.push(`/dashboard?company=${slug}`);
-    if (isMobile) {
-      setOpenMobile(false);
-    }
+    startTransition(() => {
+      router.push(`/dashboard?company=${slug}`);
+      if (isMobile) {
+        setOpenMobile(false);
+      }
+    });
   };
 
   const handleClose = () => {
@@ -291,12 +315,15 @@ export function KodePrepSidebar({ companies, selectedCompanySlug }: KodePrepSide
             {/* Companies List */}
             <div className="space-y-1 pt-1">
               {filteredDrilldownItems.map((company) => {
-                const isActive = activeCompanySlug === company.slug;
+                const isActive = displayedCompanySlug === company.slug;
+                const isSelectedPending = pendingCompanySlug === company.slug;
                 return (
                   <button
                     key={company.id}
                     type="button"
                     onClick={() => selectCompany(company.slug)}
+                    onMouseEnter={() => router.prefetch(`/dashboard?company=${company.slug}`)}
+                    onTouchStart={() => router.prefetch(`/dashboard?company=${company.slug}`)}
                     className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs transition-all cursor-pointer group ${
                       isActive
                         ? "bg-primary text-primary-foreground font-semibold shadow-xs"
@@ -654,12 +681,19 @@ export function KodePrepSidebar({ companies, selectedCompanySlug }: KodePrepSide
           <button
             type="button"
             onClick={() => {
-              if (isBookmarksActive) {
-                router.push(`/dashboard${activeCompanySlug ? `?company=${activeCompanySlug}` : ""}`);
-              } else {
-                router.push(`/dashboard?status=BOOKMARKED${activeCompanySlug ? `&company=${activeCompanySlug}` : ""}`);
-              }
-              if (isMobile) setOpenMobile(false);
+              const targetUrl = isBookmarksActive
+                ? `/dashboard${activeCompanySlug ? `?company=${activeCompanySlug}` : ""}`
+                : `/dashboard?status=BOOKMARKED${activeCompanySlug ? `&company=${activeCompanySlug}` : ""}`;
+              startTransition(() => {
+                router.push(targetUrl);
+                if (isMobile) setOpenMobile(false);
+              });
+            }}
+            onMouseEnter={() => {
+              const targetUrl = isBookmarksActive
+                ? `/dashboard${activeCompanySlug ? `?company=${activeCompanySlug}` : ""}`
+                : `/dashboard?status=BOOKMARKED${activeCompanySlug ? `&company=${activeCompanySlug}` : ""}`;
+              router.prefetch(targetUrl);
             }}
             className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
               isBookmarksActive

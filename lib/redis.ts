@@ -1,6 +1,33 @@
 import { Redis } from "@upstash/redis";
 
 let redisClient: Redis | null = null;
+let isRedisWarnLogged = false;
+interface MemoryCacheEntry {
+  data: unknown;
+  expiresAt: number;
+}
+
+const memoryCache = new Map<string, MemoryCacheEntry>();
+const MAX_MEMORY_CACHE_ENTRIES = 500;
+
+function pruneMemoryCacheIfNeeded() {
+  if (memoryCache.size > MAX_MEMORY_CACHE_ENTRIES) {
+    const now = Date.now();
+    for (const [k, v] of memoryCache.entries()) {
+      if (v.expiresAt <= now) {
+        memoryCache.delete(k);
+      }
+    }
+    if (memoryCache.size > MAX_MEMORY_CACHE_ENTRIES) {
+      let removed = 0;
+      for (const k of memoryCache.keys()) {
+        memoryCache.delete(k);
+        removed++;
+        if (removed >= 100) break;
+      }
+    }
+  }
+}
 
 export function getRedisClient(): Redis | null {
   if (redisClient) return redisClient;
@@ -9,7 +36,10 @@ export function getRedisClient(): Redis | null {
   const token = process.env.UPSTASH_REDIS_REST_TOKEN;
 
   if (!url || !token) {
-    console.warn("[Redis] Upstash Redis credentials not detected; falling back to direct database execution.");
+    if (!isRedisWarnLogged) {
+      isRedisWarnLogged = true;
+      console.info("[Cache] Upstash Redis credentials not detected; using high-speed in-memory server cache.");
+    }
     return null;
   }
 
@@ -24,7 +54,6 @@ export function getRedisClient(): Redis | null {
     return null;
   }
 }
-
 
 function isDynamicServerError(err: unknown): boolean {
   return (
@@ -41,43 +70,68 @@ export async function getOrSetCache<T>(
   fetcher: () => Promise<T>,
   ttlSeconds = 3600
 ): Promise<T> {
+  const now = Date.now();
+
+  // 1. FASTEST TIER: In-Memory Cache (<0.1ms)
+  const memoryHit = memoryCache.get(key);
+  if (memoryHit && memoryHit.expiresAt > now) {
+    return memoryHit.data as T;
+  }
+
   const redis = getRedisClient();
 
-  if (!redis) {
-    return fetcher();
-  }
-
-  try {
-    const cached = await redis.get<T>(key);
-    if (cached !== null && cached !== undefined) {
-      return cached;
-    }
-  } catch (err) {
-    if (isDynamicServerError(err)) {
-      throw err;
-    }
-    console.warn(`[Redis] Cache read failed for key "${key}":`, err);
-  }
-
-  const freshData = await fetcher();
-
-  if (freshData !== null && freshData !== undefined) {
+  // 2. SECOND TIER: Upstash Redis (if configured)
+  if (redis) {
     try {
-      await redis.set(key, freshData, { ex: ttlSeconds });
+      const cached = await redis.get<T>(key);
+      if (cached !== null && cached !== undefined) {
+        pruneMemoryCacheIfNeeded();
+        memoryCache.set(key, {
+          data: cached,
+          expiresAt: now + Math.min(ttlSeconds, 300) * 1000, // 5 min local memory retention
+        });
+        return cached;
+      }
     } catch (err) {
       if (isDynamicServerError(err)) {
         throw err;
       }
-      console.warn(`[Redis] Cache write failed for key "${key}":`, err);
+      console.warn(`[Redis] Cache read failed for key "${key}":`, err);
+    }
+  }
+
+  // 3. DATABASE TIER: Fetch fresh data
+  const freshData = await fetcher();
+
+  if (freshData !== null && freshData !== undefined) {
+    // Populate In-Memory Cache immediately
+    pruneMemoryCacheIfNeeded();
+    memoryCache.set(key, {
+      data: freshData,
+      expiresAt: now + ttlSeconds * 1000,
+    });
+
+    // Populate Redis
+    if (redis) {
+      try {
+        await redis.set(key, freshData, { ex: ttlSeconds });
+      } catch (err) {
+        if (isDynamicServerError(err)) {
+          throw err;
+        }
+        console.warn(`[Redis] Cache write failed for key "${key}":`, err);
+      }
     }
   }
 
   return freshData;
 }
 
-
 export async function invalidateCache(...keys: string[]): Promise<void> {
   if (!keys.length) return;
+  for (const k of keys) {
+    memoryCache.delete(k);
+  }
   const redis = getRedisClient();
   if (!redis) return;
 
@@ -89,6 +143,13 @@ export async function invalidateCache(...keys: string[]): Promise<void> {
 }
 
 export async function invalidatePattern(pattern: string): Promise<void> {
+  const regex = new RegExp("^" + pattern.replace(/\*/g, ".*") + "$");
+  for (const k of memoryCache.keys()) {
+    if (regex.test(k)) {
+      memoryCache.delete(k);
+    }
+  }
+
   const redis = getRedisClient();
   if (!redis) return;
 

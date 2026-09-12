@@ -271,16 +271,10 @@ export function CompanyProblemGrid({ problems, companyName, companySlug }: Compa
   });
   const pageSize = 12;
 
-  // Card-only Skeleton & Switching Transition State
-  const [isInitialLoading, setIsInitialLoading] = useState(true);
+  // Card-only Skeleton & Switching Transition State (zero artificial delay)
+  const [isInitialLoading, setIsInitialLoading] = useState(false);
   const [isSwitching, setIsSwitching] = useState(false);
   const prevCompanySlug = useRef(companySlug);
-
-  useEffect(() => {
-    // Initial mount loading state (350ms)
-    const timer = setTimeout(() => setIsInitialLoading(false), 350);
-    return () => clearTimeout(timer);
-  }, []);
 
   useEffect(() => {
     const handleSwitchStart = () => {
@@ -293,9 +287,7 @@ export function CompanyProblemGrid({ problems, companyName, companySlug }: Compa
   useEffect(() => {
     if (prevCompanySlug.current !== companySlug) {
       prevCompanySlug.current = companySlug;
-      // When new company problems arrive, smoothly conclude switching skeleton
-      const timer = setTimeout(() => setIsSwitching(false), 250);
-      return () => clearTimeout(timer);
+      setIsSwitching(false);
     }
   }, [companySlug, problems]);
 

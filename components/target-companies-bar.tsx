@@ -65,6 +65,8 @@ export function TargetCompaniesBar({
             >
               <button
                 type="button"
+                onMouseEnter={() => router.prefetch(`/dashboard?company=${company.slug}`)}
+                onTouchStart={() => router.prefetch(`/dashboard?company=${company.slug}`)}
                 onClick={() => {
                   if (typeof window !== "undefined") {
                     window.dispatchEvent(new CustomEvent("company-switch-start", { detail: company.slug }));
