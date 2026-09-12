@@ -40,6 +40,8 @@ import {
   Bookmark,
   Boxes,
   Network,
+  Trophy,
+  MessagesSquare,
 } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -556,52 +558,161 @@ export function KodePrepSidebar({ companies, selectedCompanySlug }: KodePrepSide
             </div>
           </button>
         </div>
+
+        {/* ========================================================================= */}
+        {/* COMMUNITY SECTION                                                         */}
+        {/* ========================================================================= */}
+        <div className="pt-2.5 mt-2 border-t border-border/40 space-y-1">
+          <div className="flex items-center justify-between px-2.5 pt-1 pb-0.5">
+            <span className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-widest">
+              Community
+            </span>
+            <span className="text-[10px] font-mono text-muted-foreground/60 font-medium">
+              Connect
+            </span>
+          </div>
+
+          {/* Discussions */}
+          <button
+            type="button"
+            onClick={() => {
+              toast.info("Discussions is coming soon!", {
+                description: "Community discussion board, interview pattern Q&A, and preparation threads are currently in development.",
+              });
+            }}
+            className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs transition-all cursor-pointer group hover:bg-muted/50 text-foreground/90"
+            title="Discussions - Coming Soon"
+          >
+            <div className="flex items-center gap-2.5 min-w-0 flex-1">
+              <MessagesSquare className="size-4 shrink-0 text-cyan-500 group-hover:scale-105 transition-transform" />
+              <div className="flex flex-col items-start min-w-0 text-left">
+                <div className="flex items-center gap-1.5">
+                  <span className="font-bold text-xs text-foreground leading-tight">Discussions</span>
+                  <span className="text-[9px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-[3px] bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20">
+                    Soon
+                  </span>
+                </div>
+                <span className="text-[11px] text-muted-foreground leading-tight mt-0.5">Q&amp;A &amp; Strategy</span>
+              </div>
+            </div>
+          </button>
+
+          {/* Interview Experience */}
+          <button
+            type="button"
+            onClick={() => {
+              toast.info("Interview Experience is coming soon!", {
+                description: "Real company interview debriefs, compensation data, and candidate questions archive are launching soon.",
+              });
+            }}
+            className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs transition-all cursor-pointer group hover:bg-muted/50 text-foreground/90"
+            title="Interview Experience - Coming Soon"
+          >
+            <div className="flex items-center gap-2.5 min-w-0 flex-1">
+              <Briefcase className="size-4 shrink-0 text-orange-500 group-hover:scale-105 transition-transform" />
+              <div className="flex flex-col items-start min-w-0 text-left">
+                <div className="flex items-center gap-1.5">
+                  <span className="font-bold text-xs text-foreground leading-tight">Interview Experience</span>
+                  <span className="text-[9px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-[3px] bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20">
+                    Soon
+                  </span>
+                </div>
+                <span className="text-[11px] text-muted-foreground leading-tight mt-0.5">Recent Company Rounds</span>
+              </div>
+            </div>
+          </button>
+
+          {/* Leaderboard */}
+          <button
+            type="button"
+            onClick={() => {
+              toast.info("Leaderboard is coming soon!", {
+                description: "Global community solver rankings, streaks, and milestone badges are launching soon.",
+              });
+            }}
+            className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs transition-all cursor-pointer group hover:bg-muted/50 text-foreground/90"
+            title="Leaderboard - Coming Soon"
+          >
+            <div className="flex items-center gap-2.5 min-w-0 flex-1">
+              <Trophy className="size-4 shrink-0 text-amber-500 group-hover:scale-105 transition-transform" />
+              <div className="flex flex-col items-start min-w-0 text-left">
+                <div className="flex items-center gap-1.5">
+                  <span className="font-bold text-xs text-foreground leading-tight">Leaderboard</span>
+                  <span className="text-[9px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-[3px] bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                    Soon
+                  </span>
+                </div>
+                <span className="text-[11px] text-muted-foreground leading-tight mt-0.5">Rankings &amp; Streaks</span>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        {/* ========================================================================= */}
+        {/* SAVED & BOOKMARKS SECTION                                                 */}
+        {/* ========================================================================= */}
+        <div className="pt-2.5 mt-2 border-t border-border/40 space-y-1">
+          <div className="flex items-center justify-between px-2.5 pt-1 pb-0.5">
+            <span className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-widest">
+              Saved
+            </span>
+            {bookmarkCount > 0 && (
+              <span className="text-[10px] font-mono text-muted-foreground/60 font-medium">
+                {bookmarkCount} Saved
+              </span>
+            )}
+          </div>
+
+          {/* Bookmarks */}
+          <button
+            type="button"
+            onClick={() => {
+              if (isBookmarksActive) {
+                router.push(`/dashboard${activeCompanySlug ? `?company=${activeCompanySlug}` : ""}`);
+              } else {
+                router.push(`/dashboard?status=BOOKMARKED${activeCompanySlug ? `&company=${activeCompanySlug}` : ""}`);
+              }
+              if (isMobile) setOpenMobile(false);
+            }}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
+              isBookmarksActive
+                ? "bg-muted text-foreground font-semibold border border-border/60 shadow-2xs"
+                : "text-foreground/90 hover:bg-muted/50 hover:text-foreground"
+            }`}
+            title="Bookmarks"
+          >
+            <div className="flex items-center gap-2.5 min-w-0 flex-1">
+              <Bookmark
+                className={`size-4 shrink-0 transition-colors ${
+                  isBookmarksActive
+                    ? "text-cyan-400 fill-cyan-400/20"
+                    : "text-cyan-400 group-hover:text-cyan-300"
+                }`}
+              />
+              <div className="flex flex-col items-start min-w-0 text-left">
+                <span className="font-bold text-xs text-foreground leading-tight">Bookmarks</span>
+                <span className="text-[11px] text-muted-foreground leading-tight mt-0.5">Saved Problems</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-1.5 shrink-0">
+              {bookmarkCount > 0 && (
+                <span className="text-[10px] px-1.5 py-0.5 rounded-md font-mono text-muted-foreground bg-muted/60">
+                  {bookmarkCount}
+                </span>
+              )}
+              {isBookmarksActive && (
+                <span className="w-1 h-3.5 rounded-full bg-cyan-400 shrink-0" />
+              )}
+            </div>
+          </button>
+        </div>
       </SidebarContent>
 
       {/* ========================================================================= */}
       {/* 3. DOWNSIDE NAVIGATION & ACCOUNT FOOTER                                   */}
       {/* ========================================================================= */}
       <div className="shrink-0 p-2.5 border-t border-border/40 bg-transparent space-y-2">
-        {/* Bookmarks downside menu item (matching user reference image style) */}
-        <button
-          type="button"
-          onClick={() => {
-            if (isBookmarksActive) {
-              router.push(`/dashboard${activeCompanySlug ? `?company=${activeCompanySlug}` : ""}`);
-            } else {
-              router.push(`/dashboard?status=BOOKMARKED${activeCompanySlug ? `&company=${activeCompanySlug}` : ""}`);
-            }
-            if (isMobile) setOpenMobile(false);
-          }}
-          className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer group ${
-            isBookmarksActive
-              ? "bg-muted text-foreground font-semibold border border-border/60 shadow-2xs"
-              : "text-foreground/90 hover:bg-muted/60 hover:text-foreground"
-          }`}
-          title="Bookmarks"
-        >
-          <div className="flex items-center gap-2.5 min-w-0">
-            <Bookmark
-              className={`size-4 shrink-0 transition-colors ${
-                isBookmarksActive
-                  ? "text-cyan-400 fill-cyan-400/20"
-                  : "text-cyan-400 group-hover:text-cyan-300"
-              }`}
-            />
-            <span className="truncate">Bookmarks</span>
-          </div>
-
-          <div className="flex items-center gap-1.5 shrink-0">
-            {bookmarkCount > 0 && (
-              <span className="text-[10px] px-1.5 py-0.5 rounded-md font-mono text-muted-foreground bg-muted/60">
-                {bookmarkCount}
-              </span>
-            )}
-            {isBookmarksActive && (
-              <span className="w-1 h-3.5 rounded-full bg-cyan-400 shrink-0" />
-            )}
-          </div>
-        </button>
 
         {user ? (
           <div className="rounded-xl border border-border/50 bg-muted/40 p-2 flex items-center justify-between gap-2 shadow-2xs">
