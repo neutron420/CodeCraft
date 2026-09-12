@@ -621,6 +621,20 @@ export function KodePrepSidebar({ companies, selectedCompanySlug }: KodePrepSide
               </div>
             </div>
           </button>
+        </div>
+
+        {/* ========================================================================= */}
+        {/* LEADERBOARD SECTION                                                       */}
+        {/* ========================================================================= */}
+        <div className="pt-2.5 mt-2 border-t border-border/40 space-y-1">
+          <div className="flex items-center justify-between px-2.5 pt-1 pb-0.5">
+            <span className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-widest">
+              Leaderboard
+            </span>
+            <span className="text-[10px] font-mono text-muted-foreground/60 font-medium">
+              Rankings
+            </span>
+          </div>
 
           {/* Leaderboard */}
           <button
@@ -642,7 +656,7 @@ export function KodePrepSidebar({ companies, selectedCompanySlug }: KodePrepSide
                     Soon
                   </span>
                 </div>
-                <span className="text-[11px] text-muted-foreground leading-tight mt-0.5">Rankings &amp; Streaks</span>
+                <span className="text-[11px] text-muted-foreground leading-tight mt-0.5">Top Solvers &amp; Streaks</span>
               </div>
             </div>
           </button>
