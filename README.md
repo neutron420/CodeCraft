@@ -29,7 +29,7 @@
 
 ---
 
-## ⚡ About Algoryn
+## About Algoryn
 
 **Algoryn** is a high-performance interview preparation platform designed for software engineers targeting top tech companies. Instead of practicing randomly, Algoryn organizes **1,000+ real interview problems** across **100+ tier-1 companies** into **18 industry categories** — spanning FAANG, High-Frequency Trading (HFT), AI/ML, FinTech, and Cybersecurity.
 
@@ -37,7 +37,7 @@ Live at [**algoryn.me**](https://www.algoryn.me).
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 - **Company Problem Explorer**: Browse company-specific questions with real-time filters for difficulty (Easy / Medium / Hard), timeframe, source, and topic tags.
 - **18 Industry Categories**: Drilldown navigation through FAANG, Quant/HFT, FinTech, Cloud, AI & Machine Learning, E-Commerce, and more.
@@ -49,7 +49,7 @@ Live at [**algoryn.me**](https://www.algoryn.me).
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 <table>
   <tr>
@@ -112,7 +112,7 @@ Live at [**algoryn.me**](https://www.algoryn.me).
 
 ---
 
-## 🗄️ Database Architecture
+## Database Architecture
 
 ```
 Company ──────┐
@@ -132,7 +132,7 @@ CommunityProblem ──────────────────┘
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - **Node.js 18+** or **Bun 1.0+**
@@ -164,7 +164,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 🔐 Environment Configuration
+## Environment Configuration
 
 Create a `.env.local` file in the project root:
 
@@ -187,7 +187,7 @@ UPSTASH_REDIS_REST_TOKEN="your-upstash-token"
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 algoryn/
@@ -214,7 +214,7 @@ algoryn/
 
 ---
 
-## 📜 Scripts
+## Scripts
 
 | Command | Description |
 |---|---|
@@ -227,14 +227,14 @@ algoryn/
 
 ---
 
-## 🌐 Production Domains
+## Production Domains
 
 - **Primary**: [https://www.algoryn.me](https://www.algoryn.me)
 - **Apex**: [https://algoryn.me](https://algoryn.me)
 
 ---
 
-## 📄 License
+## License
 
 Open source under the [MIT License](LICENSE).
 

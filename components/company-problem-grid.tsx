@@ -1498,38 +1498,40 @@ export function CompanyProblemGrid({ problems, companyName, companySlug }: Compa
       )}
       <div
         className={cn(
-          "fixed inset-0 z-40 bg-transparent cursor-default transition-opacity duration-200",
+          "fixed inset-0 z-40 bg-black/20 sm:bg-transparent cursor-default transition-opacity duration-200",
           isFilterSheetOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         )}
         onClick={() => setIsFilterSheetOpen(false)}
         aria-hidden="true"
       />
 
-      {/* Floating White Customize Card with smooth enter/exit animation (Exact 1:1 ReUI Proportion & Responsive Mobile Bottom Sheet) */}
+      {/* Customize Panel: Slides up from bottom on Mobile (Exact match to screenshot), Floating Card on Desktop */}
       <div
         role="dialog"
         aria-modal="true"
         aria-label="Customize"
         className={cn(
-          "fixed z-50 bg-white text-zinc-900 border border-zinc-200/90 shadow-xl shadow-zinc-900/10 flex flex-col overflow-hidden transition-all duration-250 ease-[cubic-bezier(0.16,1,0.3,1)]",
+          "fixed z-50 bg-white text-zinc-900 border border-zinc-200 shadow-2xl flex flex-col overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
           isMobile
-            ? "inset-x-3 bottom-3 max-h-[85vh] rounded-2xl pb-1"
+            ? "inset-x-0 bottom-0 max-h-[88vh] rounded-t-3xl rounded-b-none border-b-0 pb-[env(safe-area-inset-bottom,1rem)]"
             : "top-20 right-6 sm:right-8 w-[260px] max-h-[calc(100vh-6rem)] rounded-2xl",
           isFilterSheetOpen
             ? "opacity-100 translate-y-0 scale-100 pointer-events-auto"
-            : "opacity-0 translate-y-6 sm:translate-y-2 scale-95 pointer-events-none"
+            : isMobile
+            ? "opacity-0 translate-y-full pointer-events-none"
+            : "opacity-0 translate-y-2 scale-95 pointer-events-none"
         )}
       >
-        {/* Mobile drag handle */}
-        <div className="w-10 h-1 bg-zinc-200 rounded-full mx-auto mt-2 -mb-1 sm:hidden shrink-0" />
+        {/* Mobile drag handle indicator */}
+        <div className="w-12 h-1.5 bg-zinc-200 rounded-full mx-auto mt-2.5 mb-1 sm:hidden shrink-0" />
 
         {/* Header: "Customize" + sidebar collapse icon */}
-        <div className="px-4 py-3 border-b border-zinc-100 flex items-center justify-between shrink-0 bg-white">
+        <div className="px-5 py-3 border-b border-zinc-100 flex items-center justify-between shrink-0 bg-white">
           <span className="text-sm font-semibold tracking-tight text-zinc-900">Customize</span>
           <button
             type="button"
             onClick={() => setIsFilterSheetOpen(false)}
-            className="p-1.5 sm:p-1 rounded-md hover:bg-zinc-100 text-zinc-500 hover:text-zinc-900 transition-colors cursor-pointer"
+            className="p-1.5 rounded-md hover:bg-zinc-100 text-zinc-500 hover:text-zinc-900 transition-colors cursor-pointer"
             title="Close customizer"
             aria-label="Close customizer"
           >
