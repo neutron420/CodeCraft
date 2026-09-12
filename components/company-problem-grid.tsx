@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useRef, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import {
   ExternalLink,
   Search,
@@ -203,6 +203,8 @@ export function CompanyProblemGrid({ problems, companyName, companySlug }: Compa
   const [platformFilter, setPlatformFilter] = useState<string>("ALL");
   const [sourceFilter, setSourceFilter] = useState<"ALL" | "CURATED" | "COMMUNITY">("ALL");
 
+  const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const statusParam = searchParams.get("status");
   const [prevStatusParam, setPrevStatusParam] = useState(statusParam);
@@ -210,13 +212,37 @@ export function CompanyProblemGrid({ problems, companyName, companySlug }: Compa
     statusParam === "BOOKMARKED" ? "BOOKMARKED" : "ALL"
   );
 
-  // Sync state when URL status parameter changes
+  // Sync state when URL status parameter changes (e.g. from sidebar or back/forward navigation)
   if (statusParam !== prevStatusParam) {
     setPrevStatusParam(statusParam);
     if (statusParam === "BOOKMARKED") {
       setStatusFilter("BOOKMARKED");
+    } else if (statusParam === "SOLVED" || statusParam === "UNSOLVED") {
+      setStatusFilter(statusParam);
+    } else {
+      setStatusFilter("ALL");
     }
   }
+
+  // Helper to update status filter both in component state and URL search params
+  const updateStatusFilter = (newStatus: "ALL" | "SOLVED" | "BOOKMARKED" | "UNSOLVED") => {
+    setStatusFilter(newStatus);
+    setCurrentPage(1);
+
+    const params = new URLSearchParams(searchParams.toString());
+    if (newStatus === "BOOKMARKED") {
+      params.set("status", "BOOKMARKED");
+    } else if (newStatus === "SOLVED") {
+      params.set("status", "SOLVED");
+    } else if (newStatus === "UNSOLVED") {
+      params.set("status", "UNSOLVED");
+    } else {
+      params.delete("status");
+    }
+    const newQuery = params.toString();
+    const newUrl = newQuery ? `${pathname}?${newQuery}` : pathname;
+    router.replace(newUrl, { scroll: false });
+  };
 
   // Secondary Toolbar: Sort, View, Pagination & Modals
   const [sortBy, setSortBy] = useState<SortOptionType>("recent");
@@ -391,9 +417,9 @@ export function CompanyProblemGrid({ problems, companyName, companySlug }: Compa
     setSelectedTopics([]);
     setTimeframeFilter("ALL");
     setPlatformFilter("ALL");
-    setStatusFilter("ALL");
     setSourceFilter("ALL");
     setCurrentPage(1);
+    updateStatusFilter("ALL");
   };
 
   // Active filter count calculation
@@ -724,8 +750,7 @@ export function CompanyProblemGrid({ problems, companyName, companySlug }: Compa
           <button
             type="button"
             onClick={() => {
-              setStatusFilter((prev) => (prev === "BOOKMARKED" ? "ALL" : "BOOKMARKED"));
-              setCurrentPage(1);
+              updateStatusFilter(statusFilter === "BOOKMARKED" ? "ALL" : "BOOKMARKED");
             }}
             className={`flex items-center gap-1.5 px-3 py-1.5 sm:h-8.5 rounded-md text-xs font-semibold border transition-all cursor-pointer shadow-2xs ${
               statusFilter === "BOOKMARKED"
@@ -921,7 +946,7 @@ export function CompanyProblemGrid({ problems, companyName, companySlug }: Compa
                 <span className="truncate">Status: {statusFilter.toLowerCase()}</span>
                 <button
                   type="button"
-                  onClick={() => setStatusFilter("ALL")}
+                  onClick={() => updateStatusFilter("ALL")}
                   className="hover:text-rose-500 cursor-pointer shrink-0 ml-1"
                   aria-label="Remove status filter"
                 >
@@ -1556,7 +1581,7 @@ export function CompanyProblemGrid({ problems, companyName, companySlug }: Compa
                   <button
                     key={st.id}
                     type="button"
-                    onClick={() => setStatusFilter(st.id as typeof statusFilter)}
+                    onClick={() => updateStatusFilter(st.id as typeof statusFilter)}
                     className={`p-2 rounded-lg text-xs font-semibold border transition-all cursor-pointer text-center ${
                       statusFilter === st.id
                         ? "bg-primary text-primary-foreground border-primary shadow-2xs"
