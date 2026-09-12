@@ -1,27 +1,27 @@
 <div align="center">
 
-<img src="public/codecraft-logo-tight.png" alt="CodeCraft" height="48" />
+<img src="public/logos/algorynlog.png" alt="Algoryn" height="60" />
 
-<br /><br />
+# Algoryn
+
+**The Modern Technical Interview Preparation Platform**
 
 <p>
-  <a href="https://codeprep-kappa.vercel.app"><strong>View Live Demo</strong></a>
+  <a href="https://www.algoryn.me"><strong>Explore Live Platform (algoryn.me)</strong></a>
   &nbsp;&middot;&nbsp;
-  <a href="https://github.com/neutron420/CodePrep/issues"><strong>Report Bug</strong></a>
+  <a href="https://github.com/neutron420/CodeCraft/issues"><strong>Report Bug</strong></a>
   &nbsp;&middot;&nbsp;
-  <a href="https://github.com/neutron420/CodePrep/issues"><strong>Request Feature</strong></a>
+  <a href="https://github.com/neutron420/CodeCraft/issues"><strong>Request Feature</strong></a>
 </p>
-
-<br />
 
 <p>
   <img src="https://img.shields.io/badge/Next.js_16-000?style=flat-square&logo=nextdotjs&logoColor=white" alt="Next.js" />
   <img src="https://img.shields.io/badge/React_19-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React" />
   <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript" />
-  <img src="https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS_4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind" />
   <img src="https://img.shields.io/badge/Prisma-2D3748?style=flat-square&logo=prisma&logoColor=white" alt="Prisma" />
-  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/Firebase-DD2C00?style=flat-square&logo=firebase&logoColor=white" alt="Firebase" />
+  <img src="https://img.shields.io/badge/Neon_PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/Firebase_Auth-DD2C00?style=flat-square&logo=firebase&logoColor=white" alt="Firebase" />
   <img src="https://img.shields.io/badge/Vercel-000?style=flat-square&logo=vercel&logoColor=white" alt="Vercel" />
 </p>
 
@@ -29,22 +29,34 @@
 
 ---
 
-## About
+## ⚡ About Algoryn
 
-**CodeCraft** is a full-stack platform for software engineers preparing for coding interviews at top tech companies. It aggregates **1,000+ LeetCode problems** mapped across **100+ companies**, organized into **18 industry categories** — from FAANG and HFT firms to fintech and cybersecurity.
+**Algoryn** is a high-performance interview preparation platform designed for software engineers targeting top tech companies. Instead of practicing randomly, Algoryn organizes **1,000+ real interview problems** across **100+ tier-1 companies** into **18 industry categories** — spanning FAANG, High-Frequency Trading (HFT), AI/ML, FinTech, and Cybersecurity.
 
-Instead of solving problems randomly, CodeCraft lets you focus on the exact questions that companies actually ask.
+Live at [**algoryn.me**](https://www.algoryn.me).
 
 ---
 
-## Tech Stack
+## ✨ Key Features
+
+- **Company Problem Explorer**: Browse company-specific questions with real-time filters for difficulty (Easy / Medium / Hard), timeframe, source, and topic tags.
+- **18 Industry Categories**: Drilldown navigation through FAANG, Quant/HFT, FinTech, Cloud, AI & Machine Learning, E-Commerce, and more.
+- **Instant Two-Way Bookmarks**: Save problems with one click; bidirectional URL synchronization (`/dashboard?status=BOOKMARKED`) and cloud sync across devices.
+- **System Design Tracks**: Dedicated roadmaps for Low-Level Design (LLD) and High-Level Design (HLD).
+- **Community Hub**: Integrated sections for community Discussions, verified Interview Experiences, and global solver Leaderboards.
+- **Multi-Tier Caching Pipeline**: Sub-millisecond in-memory server cache and Upstash Redis integration with hover prefetching for instantaneous page transitions.
+- **Secure Authentication**: Google & GitHub OAuth powered by Firebase with 7-day session persistence and Neon PostgreSQL user sync.
+
+---
+
+## 🛠️ Tech Stack
 
 <table>
   <tr>
     <th align="center" width="120">Frontend</th>
-    <th align="center" width="120">Backend</th>
-    <th align="center" width="120">Auth</th>
-    <th align="center" width="120">Infra</th>
+    <th align="center" width="120">Backend & DB</th>
+    <th align="center" width="120">Authentication</th>
+    <th align="center" width="120">Infrastructure</th>
   </tr>
   <tr>
     <td align="center">
@@ -71,7 +83,7 @@ Instead of solving problems randomly, CodeCraft lets you focus on the exact ques
       <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" width="30" /><br /><sub>Google OAuth</sub>
     </td>
     <td align="center">
-      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" width="30" /><br /><sub>Git</sub>
+      <img src="https://cdn.simpleicons.org/upstash" width="30" /><br /><sub>Upstash Redis</sub>
     </td>
   </tr>
   <tr>
@@ -85,7 +97,7 @@ Instead of solving problems randomly, CodeCraft lets you focus on the exact ques
       <img src="https://cdn.simpleicons.org/github/white" width="30" /><br /><sub>GitHub OAuth</sub>
     </td>
     <td align="center">
-      <img src="https://cdn.simpleicons.org/bun" width="30" /><br /><sub>npm / bun</sub>
+      <img src="https://cdn.simpleicons.org/bun" width="30" /><br /><sub>Bun &middot; npm</sub>
     </td>
   </tr>
   <tr>
@@ -93,185 +105,139 @@ Instead of solving problems randomly, CodeCraft lets you focus on the exact ques
       <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" width="30" /><br /><sub>Tailwind CSS 4</sub>
     </td>
     <td align="center" colspan="3">
-      <sub><b>UI:</b> shadcn/ui &middot; Lucide &middot; Recharts &middot; Motion &middot; Sonner &middot; TanStack Table</sub>
+      <sub><b>UI & Utilities:</b> Radix UI &middot; Lucide Icons &middot; Sonner &middot; Motion &middot; Recharts</sub>
     </td>
   </tr>
 </table>
 
 ---
 
-## Features
-
-**Problem Explorer**
-- Browse 1,000+ LeetCode problems organized by company
-- Filter by difficulty (Easy / Medium / Hard) and topic tags
-- Switch between grid and list views
-- Search across all 100+ companies with the Command Palette (`Ctrl+K`)
-
-**Company Categories**
-- 18 industry groups: FAANG, AI/ML, HFT, Banking, Cybersecurity, and more
-- Collapsible sidebar with company logos and problem counts
-- Pin target companies for quick access
-
-**Authentication**
-- Google and GitHub OAuth via Firebase
-- Optional "Remember me for 7 days" session persistence
-- Route guards that redirect unauthenticated users to login
-
-**User Features**
-- Mark problems as solved and track progress per company
-- Target company pinning with cloud sync
-- Responsive design optimized for desktop and mobile
-
----
-
-## Database Schema
+## 🗄️ Database Architecture
 
 ```
 Company ──────┐
               ├── CompanyProblem ──┐
 Problem ──────┘                    │
-  |                                |
-  ├── ProblemTopic ── Topic        |
-  |                                |
-  └── UserSolvedProblem ──┐        |
-                          |        |
-User ─────────────────────┤        |
-                          └── UserTargetCompany
+  │                                │
+  ├── ProblemTopic ── Topic        │
+  │                                │
+  └── UserSolvedProblem ──┐        │
+                          │        │
+User ─────────────────────┤        │
+     ├── UserBookmark ────┤        │
+     └── UserTargetCompany┘        │
+                                   │
+CommunityProblem ──────────────────┘
 ```
 
 ---
 
-## Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
-
 - **Node.js 18+** or **Bun 1.0+**
-- **PostgreSQL** database (or a [Neon](https://neon.tech) account)
+- **PostgreSQL** database (e.g., [Neon](https://neon.tech))
 - **Firebase** project with Authentication enabled
 
-### Setup
+### Installation
 
 ```bash
-# Clone the repo
-git clone https://github.com/neutron420/CodePrep.git
-cd CodePrep
+# 1. Clone the repository
+git clone https://github.com/neutron420/CodeCraft.git
+cd CodeCraft
 
-# Install dependencies
+# 2. Install dependencies
 npm install
 
-# Set up environment variables
-cp .env.example .env
-# Edit .env with your credentials (see below)
+# 3. Configure environment variables
+cp .env.example .env.local
 
-# Generate Prisma client and run migrations
+# 4. Initialize Prisma client & database schema
 npx prisma generate
 npx prisma migrate deploy
 
-# Import problem data
-bun scripts/import-leetcode-data.ts
-
-# Start dev server
+# 5. Start development server
 npm run dev
 ```
 
-### Environment Variables
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-Create a `.env` file in the root directory:
+---
+
+## 🔐 Environment Configuration
+
+Create a `.env.local` file in the project root:
 
 ```env
-# Database (Neon PostgreSQL)
-DATABASE_URL="postgresql://user:password@host/database?sslmode=require"
+# Database (Neon Serverless PostgreSQL)
+DATABASE_URL="postgresql://user:password@ep-host.region.neon.tech/neondb?sslmode=require"
 
-# Firebase Client
+# Firebase Client SDK
 NEXT_PUBLIC_FIREBASE_API_KEY="your-api-key"
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN="your-project.firebaseapp.com"
 NEXT_PUBLIC_FIREBASE_PROJECT_ID="your-project-id"
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET="your-project.firebasestorage.app"
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET="your-project.appspot.com"
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID="your-sender-id"
 NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"
 
-# Firebase Server
-FIREBASE_PROJECT_ID="your-project-id"
-FIREBASE_CLIENT_EMAIL="firebase-adminsdk@your-project.iam.gserviceaccount.com"
+# Optional: Upstash Redis (In-memory fallback runs automatically if omitted)
+UPSTASH_REDIS_REST_URL="https://your-upstash-url.upstash.io"
+UPSTASH_REDIS_REST_TOKEN="your-upstash-token"
 ```
 
 ---
 
-## Project Structure
+## 📂 Project Structure
 
 ```
-codeprep/
+algoryn/
 ├── app/
-│   ├── api/                    # REST API routes
-│   │   ├── auth/               #   Auth sync endpoint
-│   │   ├── companies/          #   Company data endpoints
-│   │   └── problems/           #   Problem data endpoints
-│   ├── dashboard/              # Main dashboard (sidebar + problem grid)
-│   ├── login/                  # OAuth login page
+│   ├── api/                    # API routes (auth, bookmarks, companies, problems)
+│   ├── dashboard/              # Main dashboard (sidebar + problems explorer)
+│   ├── login/                  # OAuth authentication page
+│   ├── layout.tsx              # Root layout with SEO & metadata
 │   └── page.tsx                # Landing page
 ├── components/
-│   ├── templates/nova/         # Landing page sections
-│   ├── ui/                     # shadcn/ui component primitives
-│   ├── company-problem-grid    # Problem explorer (grid + list views)
-│   ├── kodeprep-sidebar        # Company category sidebar
-│   ├── login-form              # Google + GitHub OAuth form
-│   ├── navbar-search           # Command palette search
-│   └── user-nav                # User profile dropdown
+│   ├── company-problem-grid    # Question cards, filtering, sort, and pagination
+│   ├── kodeprep-sidebar        # Category drilldown, community, & bookmarks
+│   ├── kodeprep-logo           # Algoryn brand identity
+│   ├── target-companies-bar    # Pinned target companies quick ribbon
+│   └── ui/                     # UI components
 ├── lib/
-│   ├── context/                # Auth context provider
-│   ├── firebase/               # Firebase client config
-│   ├── hooks/                  # Custom React hooks
-│   └── repositories/           # Prisma data access layer
-├── prisma/
-│   ├── schema.prisma           # Database schema
-│   └── migrations/             # SQL migrations
-└── public/                     # Static assets
+│   ├── context/                # Auth & app context providers
+│   ├── hooks/                  # React hooks (useBookmarks, useSolvedProblems)
+│   ├── redis.ts                # Multi-tier caching pipeline
+│   └── prisma.ts               # Prisma database client
+└── public/
+    └── logos/algorynlog.png    # Official Algoryn brand asset
 ```
 
 ---
 
-## Scripts
+## 📜 Scripts
 
 | Command | Description |
 |---|---|
-| `npm run dev` | Start development server |
-| `npm run build` | Production build |
-| `npm run lint` | Run ESLint |
-| `npm run db:migrate` | Run database migrations |
-| `npm run db:generate` | Generate Prisma client |
-| `npm run db:studio` | Open Prisma Studio GUI |
-| `npm run db:import` | Import LeetCode dataset |
-| `npm run db:verify` | Verify database integrity |
+| `npm run dev` | Start development server on port 3000 |
+| `npm run build` | Compile optimized production build |
+| `npm run lint` | Run ESLint validation |
+| `npx prisma generate` | Regenerate Prisma client |
+| `npx prisma migrate deploy` | Apply pending database migrations |
+| `npx prisma studio` | Open Prisma Studio database browser |
 
 ---
 
-## Deployment
+## 🌐 Production Domains
 
-Deployed on **Vercel** with automatic deployments from `master`.
-
-Set all environment variables in **Vercel Dashboard** > **Settings** > **Environment Variables**.
-
----
-
-## Contributing
-
-```bash
-# Fork the repo, then:
-git checkout -b feature/your-feature
-git commit -m "feat: add your feature"
-git push origin feature/your-feature
-# Open a Pull Request
-```
+- **Primary**: [https://www.algoryn.me](https://www.algoryn.me)
+- **Apex**: [https://algoryn.me](https://algoryn.me)
 
 ---
 
-## License
+## 📄 License
 
 Open source under the [MIT License](LICENSE).
 
----
-
 <div align="center">
-  <sub>Built by <a href="https://github.com/neutron420">neutron420</a></sub>
+  <sub>Designed & engineered by <a href="https://github.com/neutron420">neutron420</a></sub>
 </div>
