@@ -621,21 +621,6 @@ export function KodePrepSidebar({ companies, selectedCompanySlug }: KodePrepSide
               </div>
             </div>
           </button>
-        </div>
-
-        {/* ========================================================================= */}
-        {/* LEADERBOARD SECTION                                                       */}
-        {/* ========================================================================= */}
-        <div className="pt-2.5 mt-2 border-t border-border/40 space-y-1">
-          <div className="flex items-center justify-between px-2.5 pt-1 pb-0.5">
-            <span className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-widest">
-              Leaderboard
-            </span>
-            <span className="text-[10px] font-mono text-muted-foreground/60 font-medium">
-              Rankings
-            </span>
-          </div>
-
           {/* Leaderboard */}
           <button
             type="button"
@@ -663,21 +648,9 @@ export function KodePrepSidebar({ companies, selectedCompanySlug }: KodePrepSide
         </div>
 
         {/* ========================================================================= */}
-        {/* SAVED & BOOKMARKS SECTION                                                 */}
+        {/* BOOKMARKS (SAVED PROBLEMS - NO HEADING)                                   */}
         {/* ========================================================================= */}
-        <div className="pt-2.5 mt-2 border-t border-border/40 space-y-1">
-          <div className="flex items-center justify-between px-2.5 pt-1 pb-0.5">
-            <span className="text-[10px] font-bold text-muted-foreground/70 uppercase tracking-widest">
-              Saved
-            </span>
-            {bookmarkCount > 0 && (
-              <span className="text-[10px] font-mono text-muted-foreground/60 font-medium">
-                {bookmarkCount} Saved
-              </span>
-            )}
-          </div>
-
-          {/* Bookmarks */}
+        <div className="pt-1.5 mt-1 border-t border-border/40">
           <button
             type="button"
             onClick={() => {
