@@ -44,14 +44,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="google-adsense-account" content="ca-pub-7449708956977518" />
         <link rel="icon" href="/logos/algorynlog.png" type="image/png" />
         <link rel="apple-touch-icon" href="/logos/algorynlog.png" />
         <GoogleAdSenseClient />
       </head>
-      <body className={`${fontSans.variable} ${fontHeading.variable} antialiased`}>
+      <body className={`${fontSans.variable} ${fontHeading.variable} antialiased`} suppressHydrationWarning>
         <AuthProvider>
           <TooltipProvider>
             {children}

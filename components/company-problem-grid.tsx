@@ -33,13 +33,19 @@ import {
   ThumbsUp,
   Clock,
   SlidersHorizontal,
+  Settings2,
   ArrowUpDown,
   X,
   RotateCcw,
   ChevronDown,
   User,
   Bookmark,
+  Shuffle,
+  PanelRightClose,
+  CheckCircle2,
+  Layers,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { useSolvedProblems } from "@/lib/hooks/use-solved-problems";
 import { useBookmarks } from "@/lib/hooks/use-bookmarks";
 import { useTargetCompanies } from "@/lib/hooks/use-target-companies";
@@ -52,15 +58,6 @@ import { getCompanyDomain } from "@/lib/company-domains";
 import { COMPANY_CATEGORIES } from "@/lib/company-categories";
 import { getCompanyDetail } from "@/lib/company-details";
 import { CodingPlatformIcon } from "@/components/coding-platform-icon";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetDescription,
-  SheetFooter,
-  SheetClose,
-} from "@/components/ui/sheet";
 import { toast } from "sonner";
 
 function getPlatformBadge(platform?: CodingPlatformType) {
@@ -252,6 +249,20 @@ export function CompanyProblemGrid({ problems, companyName, companySlug }: Compa
   const [filterTopicSearch, setFilterTopicSearch] = useState("");
   const [isMobile, setIsMobile] = useState(false);
 
+  // Floating filter sidebar expanded sections state (matching reference image)
+  const [expandedFilters, setExpandedFilters] = useState<Record<string, boolean>>({
+    difficulty: true,
+    timeframe: false,
+    status: false,
+    source: false,
+    platform: false,
+    topics: false,
+  });
+
+  const toggleExpandedFilter = (key: string) => {
+    setExpandedFilters((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
   // Upvoting & solved state
   const [upvotesState, setUpvotesState] = useState<Record<number, number>>({});
   const [votedIds, setVotedIds] = useState<Set<number>>(() => {
@@ -301,22 +312,6 @@ export function CompanyProblemGrid({ problems, companyName, companySlug }: Compa
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  // Keyboard shortcut listener for / and Cmd+K to focus search
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (
-        (e.key === "/" || ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k")) &&
-        document.activeElement?.tagName !== "INPUT" &&
-        document.activeElement?.tagName !== "TEXTAREA"
-      ) {
-        e.preventDefault();
-        searchInputRef.current?.focus();
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   const handleUpvote = async (problemId: number) => {
@@ -581,6 +576,63 @@ export function CompanyProblemGrid({ problems, companyName, companySlug }: Compa
     MORE_THAN_SIX_MONTHS: "Past Year (6+ Mo)",
   };
 
+  // Random question picker (Shuffle)
+  const handlePickRandomProblem = () => {
+    if (filteredProblems.length === 0) {
+      toast.error("No questions match the current filters");
+      return;
+    }
+    const randomIndex = Math.floor(Math.random() * filteredProblems.length);
+    const picked = filteredProblems[randomIndex];
+    setIsFilterSheetOpen(false);
+    toast.success(`Picked: ${picked.title}`, {
+      description: `Difficulty: ${picked.difficulty} • ${picked.platform || "LeetCode"}`,
+      action: picked.leetcodeUrl
+        ? {
+            label: "Open Question",
+            onClick: () => window.open(picked.leetcodeUrl, "_blank"),
+          }
+        : undefined,
+    });
+    if (picked.leetcodeUrl) {
+      window.open(picked.leetcodeUrl, "_blank");
+    }
+  };
+
+  // Keyboard shortcut listener for / (search), Escape (close modal), and R (shuffle/random)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // 1. Search shortcut / or Cmd+K
+      if (
+        (e.key === "/" || ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k")) &&
+        document.activeElement?.tagName !== "INPUT" &&
+        document.activeElement?.tagName !== "TEXTAREA"
+      ) {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+        return;
+      }
+
+      // 2. Escape to close filter panel
+      if (e.key === "Escape" && isFilterSheetOpen) {
+        e.preventDefault();
+        setIsFilterSheetOpen(false);
+        return;
+      }
+
+      // 3. 'R' or 'r' to shuffle / pick random question while panel is open
+      if ((e.key === "r" || e.key === "R") && isFilterSheetOpen) {
+        const activeEl = document.activeElement;
+        if (activeEl?.tagName !== "INPUT" && activeEl?.tagName !== "TEXTAREA") {
+          e.preventDefault();
+          handlePickRandomProblem();
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isFilterSheetOpen, filteredProblems]);
+
   return (
     <div className="space-y-3 sm:space-y-4">
       {/* ========================================================================= */}
@@ -719,18 +771,24 @@ export function CompanyProblemGrid({ problems, companyName, companySlug }: Compa
 
         {/* Toolbar Controls: Filters + Saved + Sort + View */}
         <div className="flex items-center gap-2 overflow-x-auto sm:overflow-visible">
-          {/* Filters Button */}
+          {/* Customize Button (Matching ReUI 1:1) */}
           <button
             type="button"
-            onClick={() => setIsFilterSheetOpen(true)}
-            className={`flex-1 sm:flex-none sm:w-auto sm:px-3.5 sm:h-8.5 min-w-0 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold border transition-all cursor-pointer shadow-2xs ${
-              activeFilterCount > 0
+            onClick={() => setIsFilterSheetOpen(!isFilterSheetOpen)}
+            aria-pressed={isFilterSheetOpen}
+            aria-label={isFilterSheetOpen ? "Close customizer" : "Open customizer"}
+            className={cn(
+              "flex-1 sm:flex-none sm:w-auto sm:px-3 sm:h-8.5 min-w-0 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold border transition-all cursor-pointer shadow-2xs",
+              isFilterSheetOpen
+                ? "bg-zinc-900 text-white border-zinc-900 hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:border-white"
+                : activeFilterCount > 0
                 ? "bg-primary text-primary-foreground border-primary hover:bg-primary/90"
                 : "bg-card hover:bg-muted text-foreground border-border"
-            }`}
+            )}
+            title="Customize and filter questions"
           >
-            <SlidersHorizontal className="size-3.5 shrink-0" />
-            <span className="truncate">Filters</span>
+            <Settings2 className="size-3.5 shrink-0" />
+            <span className="truncate">Customize</span>
             {activeFilterCount > 0 && (
               <span className="size-4.5 rounded-full bg-white text-primary text-[10px] font-extrabold flex items-center justify-center shrink-0">
                 {activeFilterCount}
@@ -1438,293 +1496,525 @@ export function CompanyProblemGrid({ problems, companyName, companySlug }: Compa
           </div>
         </div>
       )}
+      <div
+        className={cn(
+          "fixed inset-0 z-40 bg-transparent cursor-default transition-opacity duration-200",
+          isFilterSheetOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        )}
+        onClick={() => setIsFilterSheetOpen(false)}
+        aria-hidden="true"
+      />
 
-      {/* ========================================================================= */}
-      {/* 7. ADVANCED FILTER SHEET (DRAWER ON DESKTOP, NATIVE BOTTOM SHEET ON MOBILE) */}
-      {/* ========================================================================= */}
-      <Sheet open={isFilterSheetOpen} onOpenChange={setIsFilterSheetOpen}>
-        <SheetContent
-          side={isMobile ? "bottom" : "right"}
-          className={
-            isMobile
-              ? "max-h-[85vh] rounded-t-2xl p-0 gap-0 border-t flex flex-col"
-              : "sm:max-w-md p-0 gap-0 flex flex-col"
-          }
-        >
-          {/* Header */}
-          <SheetHeader className="px-5 py-3.5 border-b border-border/80 bg-muted/20 shrink-0">
-            <div className="flex items-center justify-between pr-6">
-              <div className="flex items-center gap-2">
-                <SlidersHorizontal className="size-4 text-primary" />
-                <SheetTitle className="text-base font-bold">Filters</SheetTitle>
-                {activeFilterCount > 0 && (
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary text-primary-foreground">
-                    {activeFilterCount} active
-                  </span>
-                )}
+      {/* Floating White Customize Card with smooth enter/exit animation (Exact 1:1 ReUI Proportion & Responsive Mobile Bottom Sheet) */}
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Customize"
+        className={cn(
+          "fixed z-50 bg-white text-zinc-900 border border-zinc-200/90 shadow-xl shadow-zinc-900/10 flex flex-col overflow-hidden transition-all duration-250 ease-[cubic-bezier(0.16,1,0.3,1)]",
+          isMobile
+            ? "inset-x-3 bottom-3 max-h-[85vh] rounded-2xl pb-1"
+            : "top-20 right-6 sm:right-8 w-[260px] max-h-[calc(100vh-6rem)] rounded-2xl",
+          isFilterSheetOpen
+            ? "opacity-100 translate-y-0 scale-100 pointer-events-auto"
+            : "opacity-0 translate-y-6 sm:translate-y-2 scale-95 pointer-events-none"
+        )}
+      >
+        {/* Mobile drag handle */}
+        <div className="w-10 h-1 bg-zinc-200 rounded-full mx-auto mt-2 -mb-1 sm:hidden shrink-0" />
+
+        {/* Header: "Customize" + sidebar collapse icon */}
+        <div className="px-4 py-3 border-b border-zinc-100 flex items-center justify-between shrink-0 bg-white">
+          <span className="text-sm font-semibold tracking-tight text-zinc-900">Customize</span>
+          <button
+            type="button"
+            onClick={() => setIsFilterSheetOpen(false)}
+            className="p-1.5 sm:p-1 rounded-md hover:bg-zinc-100 text-zinc-500 hover:text-zinc-900 transition-colors cursor-pointer"
+            title="Close customizer"
+            aria-label="Close customizer"
+          >
+            <PanelRightClose className="size-4" />
+          </button>
+        </div>
+
+        {/* Scrollable Option Rows (Exact layout from ReUI with buttery smooth CSS Grid accordion folding) */}
+        <div className="flex-1 overflow-y-auto divide-y divide-zinc-100/90 px-2 py-1 text-xs no-scrollbar">
+          {/* Row 1: Difficulty */}
+          <div className="py-0.5">
+            <button
+              type="button"
+              onClick={() => toggleExpandedFilter("difficulty")}
+              className="w-full flex items-center justify-between px-2.5 py-2 rounded-lg hover:bg-zinc-50 transition-colors text-left cursor-pointer group"
+            >
+              <div className="flex flex-col gap-0.5">
+                <span className="text-[11px] text-zinc-400 font-medium">Difficulty</span>
+                <span className="text-[13px] font-semibold text-zinc-900">
+                  {difficultyFilter === "ALL"
+                    ? "All Difficulties"
+                    : difficultyFilter.charAt(0) + difficultyFilter.slice(1).toLowerCase()}
+                </span>
               </div>
-            </div>
-            <SheetDescription className="text-xs text-muted-foreground mt-0.5">
-              Refine questions by difficulty, time range, topics, platform, and status
-            </SheetDescription>
-          </SheetHeader>
-
-          {/* Scrollable Body */}
-          <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-4 sm:space-y-5 no-scrollbar text-xs">
-            {/* Filter Section 1: Difficulty */}
-            <div className="space-y-1.5">
-              <label className="font-semibold text-foreground text-xs uppercase tracking-wider block">
-                Difficulty
-              </label>
-              <div className="grid grid-cols-4 gap-1.5">
-                {[
-                  { id: "ALL", label: "All", count: problems.length },
-                  { id: "EASY", label: "Easy", count: easyCount },
-                  { id: "MEDIUM", label: "Medium", count: mediumCount },
-                  { id: "HARD", label: "Hard", count: hardCount },
-                ].map((diff) => (
-                  <button
-                    key={diff.id}
-                    type="button"
-                    onClick={() => setDifficultyFilter(diff.id)}
-                    className={`py-2 px-1 rounded-lg text-xs font-semibold border transition-all cursor-pointer text-center ${
-                      difficultyFilter === diff.id
-                        ? "bg-primary text-primary-foreground border-primary shadow-2xs"
-                        : "bg-card hover:bg-muted text-foreground border-border"
-                    }`}
-                  >
-                    <div>{diff.label}</div>
-                    <div className="text-[10px] opacity-80 font-mono font-normal">({diff.count})</div>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Filter Section 2: Time Range */}
-            <div className="space-y-1.5">
-              <label className="font-semibold text-foreground text-xs uppercase tracking-wider block">
-                Time Range
-              </label>
-              <div className="grid grid-cols-2 gap-1.5">
-                {[
-                  { id: "ALL", label: "All Time", count: problems.length },
-                  { id: "THIRTY_DAYS", label: "Past 30 Days", count: thirtyDaysCount },
-                  { id: "THREE_MONTHS", label: "Past 3 Months", count: threeMonthsCount },
-                  { id: "SIX_MONTHS", label: "Past 6 Months", count: sixMonthsCount },
-                  { id: "MORE_THAN_SIX_MONTHS", label: "Past Year (6+ Mo)", count: moreThanSixMonthsCount },
-                ].map((tf) => (
-                  <button
-                    key={tf.id}
-                    type="button"
-                    onClick={() => setTimeframeFilter(tf.id)}
-                    className={`p-2.5 rounded-lg text-left border transition-all cursor-pointer flex items-center justify-between gap-1.5 ${
-                      timeframeFilter === tf.id
-                        ? "bg-primary/10 border-primary text-primary font-bold shadow-2xs"
-                        : "bg-card hover:bg-muted text-foreground border-border"
-                    }`}
-                  >
-                    <span>{tf.label}</span>
-                    <span className="text-[10px] opacity-70 font-mono">({tf.count})</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Filter Section 3: Question Source */}
-            <div className="space-y-1.5">
-              <label className="font-semibold text-foreground text-xs uppercase tracking-wider block">
-                Question Source
-              </label>
-              <div className="grid grid-cols-3 gap-1.5">
-                {[
-                  { id: "ALL", label: "All", count: problems.length },
-                  { id: "CURATED", label: "Curated", count: curatedCount },
-                  { id: "COMMUNITY", label: "Community", count: communityCount },
-                ].map((src) => (
-                  <button
-                    key={src.id}
-                    type="button"
-                    onClick={() => setSourceFilter(src.id as typeof sourceFilter)}
-                    className={`p-2 rounded-lg text-xs font-semibold border transition-all cursor-pointer text-center ${
-                      sourceFilter === src.id
-                        ? "bg-primary text-primary-foreground border-primary shadow-2xs"
-                        : "bg-card hover:bg-muted text-foreground border-border"
-                    }`}
-                  >
-                    <div>{src.label}</div>
-                    <div className="text-[10px] opacity-80 font-mono font-normal">({src.count})</div>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Filter Section 4: Solved / Saved Status */}
-            <div className="space-y-1.5">
-              <label className="font-semibold text-foreground text-xs uppercase tracking-wider block">
-                Question Status
-              </label>
-              <div className="grid grid-cols-4 gap-1.5">
-                {[
-                  { id: "ALL", label: "All", count: problems.length },
-                  { id: "BOOKMARKED", label: "Saved", count: bookmarkedCount },
-                  { id: "SOLVED", label: "Solved", count: solvedCount },
-                  { id: "UNSOLVED", label: "Unsolved", count: problems.length - solvedCount },
-                ].map((st) => (
-                  <button
-                    key={st.id}
-                    type="button"
-                    onClick={() => updateStatusFilter(st.id as typeof statusFilter)}
-                    className={`p-2 rounded-lg text-xs font-semibold border transition-all cursor-pointer text-center ${
-                      statusFilter === st.id
-                        ? "bg-primary text-primary-foreground border-primary shadow-2xs"
-                        : "bg-card hover:bg-muted text-foreground border-border"
-                    }`}
-                  >
-                    <div>{st.label}</div>
-                    <div className="text-[10px] opacity-80 font-mono font-normal">({st.count})</div>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Filter Section 5: Platform */}
-            {availablePlatforms.length > 1 && (
-              <div className="space-y-1.5">
-                <label className="font-semibold text-foreground text-xs uppercase tracking-wider block">
-                  Platform
-                </label>
-                <div className="flex flex-wrap gap-1.5">
-                  <button
-                    type="button"
-                    onClick={() => setPlatformFilter("ALL")}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
-                      platformFilter === "ALL"
-                        ? "bg-primary text-primary-foreground border-primary"
-                        : "bg-card hover:bg-muted text-foreground border-border"
-                    }`}
-                  >
-                    All Platforms
-                  </button>
-                  {availablePlatforms.map((plat) => {
-                    const info = getPlatformBadge(plat as CodingPlatformType);
-                    const count = problems.filter((p) => p.platform === plat).length;
-                    return (
-                      <button
-                        key={plat}
-                        type="button"
-                        onClick={() => setPlatformFilter(plat)}
-                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
-                          platformFilter === plat
-                            ? "bg-primary text-primary-foreground border-primary shadow-2xs"
-                            : "bg-card hover:bg-muted text-foreground border-border"
-                        }`}
-                      >
-                        <CodingPlatformIcon platform={plat as CodingPlatformType} className="size-3.5" />
-                        <span>{info.label}</span>
-                        <span className="text-[10px] font-mono opacity-80">({count})</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-
-            {/* Filter Section 6: Topics (Searchable multi-select) */}
-            <div className="space-y-1.5 pt-1 border-t border-border/70">
-              <div className="flex items-center justify-between">
-                <label className="font-semibold text-foreground text-xs uppercase tracking-wider">
-                  Topics ({allTopicsWithCounts.length})
-                </label>
-                {selectedTopics.length > 0 && (
-                  <button
-                    type="button"
-                    onClick={() => setSelectedTopics([])}
-                    className="text-[11px] text-primary hover:underline font-semibold cursor-pointer"
-                  >
-                    Clear topics ({selectedTopics.length})
-                  </button>
-                )}
-              </div>
-
-              {/* Topic search inside sheet */}
-              <div className="relative">
-                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground pointer-events-none" />
-                <input
-                  type="text"
-                  value={filterTopicSearch}
-                  onChange={(e) => setFilterTopicSearch(e.target.value)}
-                  placeholder="Search topic tags..."
-                  className="w-full pl-8 pr-7 py-1.5 rounded-lg border border-border bg-background text-xs placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+              <div className="flex items-center gap-1.5">
+                <span
+                  className={cn(
+                    "size-3 rounded-full shrink-0 transition-colors duration-200",
+                    difficultyFilter === "ALL" && "bg-zinc-400",
+                    difficultyFilter === "EASY" && "bg-emerald-500",
+                    difficultyFilter === "MEDIUM" && "bg-amber-500",
+                    difficultyFilter === "HARD" && "bg-rose-500"
+                  )}
                 />
-                {filterTopicSearch && (
-                  <button
-                    type="button"
-                    onClick={() => setFilterTopicSearch("")}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-                  >
-                    <X className="size-3" />
-                  </button>
-                )}
+                <ChevronDown
+                  className={cn(
+                    "size-3.5 text-zinc-400 transition-transform duration-200 ease-out group-hover:text-zinc-700",
+                    expandedFilters.difficulty && "rotate-180"
+                  )}
+                />
               </div>
-
-              {/* Topic pills list */}
-              <div className="flex flex-wrap gap-1.5 max-h-48 overflow-y-auto pr-1 no-scrollbar">
-                {allTopicsWithCounts
-                  .filter(({ topic }) =>
-                    topic.toLowerCase().includes(filterTopicSearch.toLowerCase().trim())
-                  )
-                  .map(({ topic, count }) => {
-                    const isSelected = selectedTopics.includes(topic);
-                    return (
-                      <button
-                        key={topic}
-                        type="button"
-                        onClick={() => toggleTopic(topic)}
-                        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs transition-all cursor-pointer border ${
-                          isSelected
-                            ? "bg-primary text-primary-foreground border-primary font-semibold shadow-2xs"
-                            : "bg-card hover:bg-muted text-foreground border-border"
+            </button>
+            {/* Buttery smooth CSS Grid folding container */}
+            <div
+              className={cn(
+                "grid transition-[grid-template-rows,opacity] duration-250 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                expandedFilters.difficulty ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0 pointer-events-none"
+              )}
+            >
+              <div className="overflow-hidden">
+                <div className="grid grid-cols-2 gap-1 px-2 pb-2 pt-1 bg-zinc-50/70 rounded-lg mx-1 mb-1 border border-zinc-100">
+                  {[
+                    { id: "ALL", label: "All", count: problems.length },
+                    { id: "EASY", label: "Easy", count: easyCount },
+                    { id: "MEDIUM", label: "Medium", count: mediumCount },
+                    { id: "HARD", label: "Hard", count: hardCount },
+                  ].map((diff) => (
+                    <button
+                      key={diff.id}
+                      type="button"
+                      onClick={() => setDifficultyFilter(diff.id)}
+                      className={`py-1.5 px-2 rounded-md text-[11px] font-semibold border transition-all duration-150 cursor-pointer text-left flex items-center justify-between active:scale-[0.98] ${
+                        difficultyFilter === diff.id
+                          ? "bg-zinc-900 text-white border-zinc-900 shadow-2xs"
+                          : "bg-white hover:bg-zinc-100 text-zinc-700 border-zinc-200/80"
+                      }`}
+                    >
+                      <span>{diff.label}</span>
+                      <span
+                        className={`text-[10px] font-mono ${
+                          difficultyFilter === diff.id ? "text-zinc-300" : "text-zinc-400"
                         }`}
                       >
-                        <span>{topic}</span>
-                        <span
-                          className={`text-[10px] font-mono ${
-                            isSelected ? "text-primary-foreground/90 font-bold" : "text-muted-foreground"
-                          }`}
-                        >
-                          ({count})
-                        </span>
-                      </button>
-                    );
-                  })}
+                        {diff.count}
+                      </span>
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Sticky Footer */}
-          <SheetFooter className="p-4 border-t border-border/80 bg-card shrink-0 flex flex-row items-center justify-between gap-3">
+          {/* Row 2: Time Range */}
+          <div className="py-0.5">
             <button
               type="button"
-              disabled={activeFilterCount === 0}
-              onClick={resetAllFilters}
-              className="px-4 py-2 rounded-xl text-xs font-semibold border border-border hover:bg-muted disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer"
+              onClick={() => toggleExpandedFilter("timeframe")}
+              className="w-full flex items-center justify-between px-2.5 py-2 rounded-lg hover:bg-zinc-50 transition-colors text-left cursor-pointer group"
             >
-              Clear All
-            </button>
-
-            <SheetClose
-              render={
-                <button
-                  type="button"
-                  className="flex-1 py-2 px-4 rounded-xl text-xs font-bold bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-xs cursor-pointer text-center"
+              <div className="flex flex-col gap-0.5">
+                <span className="text-[11px] text-zinc-400 font-medium">Time Range</span>
+                <span className="text-[13px] font-semibold text-zinc-900">
+                  {timeframeLabels[timeframeFilter] || "All Time"}
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Clock className="size-3.5 text-zinc-500 shrink-0" />
+                <ChevronDown
+                  className={cn(
+                    "size-3.5 text-zinc-400 transition-transform duration-200 ease-out group-hover:text-zinc-700",
+                    expandedFilters.timeframe && "rotate-180"
+                  )}
                 />
-              }
+              </div>
+            </button>
+            {/* Buttery smooth CSS Grid folding container */}
+            <div
+              className={cn(
+                "grid transition-[grid-template-rows,opacity] duration-250 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                expandedFilters.timeframe ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0 pointer-events-none"
+              )}
             >
-              Apply Filters ({filteredProblems.length})
-            </SheetClose>
-          </SheetFooter>
-        </SheetContent>
-      </Sheet>
+              <div className="overflow-hidden">
+                <div className="space-y-1 px-2 pb-2 pt-1 bg-zinc-50/70 rounded-lg mx-1 mb-1 border border-zinc-100">
+                  {[
+                    { id: "ALL", label: "All Time", count: problems.length },
+                    { id: "THIRTY_DAYS", label: "Past 30 Days", count: thirtyDaysCount },
+                    { id: "THREE_MONTHS", label: "Past 3 Months", count: threeMonthsCount },
+                    { id: "SIX_MONTHS", label: "Past 6 Months", count: sixMonthsCount },
+                    { id: "MORE_THAN_SIX_MONTHS", label: "Past Year (6+ Mo)", count: moreThanSixMonthsCount },
+                  ].map((tf) => (
+                    <button
+                      key={tf.id}
+                      type="button"
+                      onClick={() => setTimeframeFilter(tf.id)}
+                      className={`w-full py-1.5 px-2 rounded-md text-left border transition-all duration-150 cursor-pointer flex items-center justify-between text-[11px] active:scale-[0.98] ${
+                        timeframeFilter === tf.id
+                          ? "bg-zinc-900 text-white border-zinc-900 font-bold shadow-2xs"
+                          : "bg-white hover:bg-zinc-100 text-zinc-700 border-zinc-200/80"
+                      }`}
+                    >
+                      <span>{tf.label}</span>
+                      <span
+                        className={`text-[10px] font-mono ${
+                          timeframeFilter === tf.id ? "text-zinc-300" : "text-zinc-400"
+                        }`}
+                      >
+                        {tf.count}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Row 3: Question Status */}
+          <div className="py-0.5">
+            <button
+              type="button"
+              onClick={() => toggleExpandedFilter("status")}
+              className="w-full flex items-center justify-between px-2.5 py-2 rounded-lg hover:bg-zinc-50 transition-colors text-left cursor-pointer group"
+            >
+              <div className="flex flex-col gap-0.5">
+                <span className="text-[11px] text-zinc-400 font-medium">Question Status</span>
+                <span className="text-[13px] font-semibold text-zinc-900">
+                  {statusFilter === "ALL"
+                    ? "All Questions"
+                    : statusFilter === "BOOKMARKED"
+                    ? "Saved Questions"
+                    : statusFilter === "SOLVED"
+                    ? "Solved Only"
+                    : "Unsolved Only"}
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <CheckCircle2 className="size-3.5 text-zinc-500 shrink-0" />
+                <ChevronDown
+                  className={cn(
+                    "size-3.5 text-zinc-400 transition-transform duration-200 ease-out group-hover:text-zinc-700",
+                    expandedFilters.status && "rotate-180"
+                  )}
+                />
+              </div>
+            </button>
+            {/* Buttery smooth CSS Grid folding container */}
+            <div
+              className={cn(
+                "grid transition-[grid-template-rows,opacity] duration-250 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                expandedFilters.status ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0 pointer-events-none"
+              )}
+            >
+              <div className="overflow-hidden">
+                <div className="grid grid-cols-2 gap-1 px-2 pb-2 pt-1 bg-zinc-50/70 rounded-lg mx-1 mb-1 border border-zinc-100">
+                  {[
+                    { id: "ALL", label: "All", count: problems.length },
+                    { id: "BOOKMARKED", label: "Saved", count: bookmarkedCount },
+                    { id: "SOLVED", label: "Solved", count: solvedCount },
+                    { id: "UNSOLVED", label: "Unsolved", count: problems.length - solvedCount },
+                  ].map((st) => (
+                    <button
+                      key={st.id}
+                      type="button"
+                      onClick={() => updateStatusFilter(st.id as typeof statusFilter)}
+                      className={`py-1.5 px-2 rounded-md text-[11px] font-semibold border transition-all duration-150 cursor-pointer flex items-center justify-between active:scale-[0.98] ${
+                        statusFilter === st.id
+                          ? "bg-zinc-900 text-white border-zinc-900 shadow-2xs"
+                          : "bg-white hover:bg-zinc-100 text-zinc-700 border-zinc-200/80"
+                      }`}
+                    >
+                      <span>{st.label}</span>
+                      <span
+                        className={`text-[10px] font-mono ${
+                          statusFilter === st.id ? "text-zinc-300" : "text-zinc-400"
+                        }`}
+                      >
+                        {st.count}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Row 4: Question Source */}
+          <div className="py-0.5">
+            <button
+              type="button"
+              onClick={() => toggleExpandedFilter("source")}
+              className="w-full flex items-center justify-between px-2.5 py-2 rounded-lg hover:bg-zinc-50 transition-colors text-left cursor-pointer group"
+            >
+              <div className="flex flex-col gap-0.5">
+                <span className="text-[11px] text-zinc-400 font-medium">Question Source</span>
+                <span className="text-[13px] font-semibold text-zinc-900">
+                  {sourceFilter === "ALL"
+                    ? "All Sources"
+                    : sourceFilter === "CURATED"
+                    ? "Curated"
+                    : "Community"}
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Layers className="size-3.5 text-zinc-500 shrink-0" />
+                <ChevronDown
+                  className={cn(
+                    "size-3.5 text-zinc-400 transition-transform duration-200 ease-out group-hover:text-zinc-700",
+                    expandedFilters.source && "rotate-180"
+                  )}
+                />
+              </div>
+            </button>
+            {/* Buttery smooth CSS Grid folding container */}
+            <div
+              className={cn(
+                "grid transition-[grid-template-rows,opacity] duration-250 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                expandedFilters.source ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0 pointer-events-none"
+              )}
+            >
+              <div className="overflow-hidden">
+                <div className="grid grid-cols-3 gap-1 px-2 pb-2 pt-1 bg-zinc-50/70 rounded-lg mx-1 mb-1 border border-zinc-100">
+                  {[
+                    { id: "ALL", label: "All", count: problems.length },
+                    { id: "CURATED", label: "Curated", count: curatedCount },
+                    { id: "COMMUNITY", label: "Community", count: communityCount },
+                  ].map((src) => (
+                    <button
+                      key={src.id}
+                      type="button"
+                      onClick={() => setSourceFilter(src.id as typeof sourceFilter)}
+                      className={`py-1.5 px-1 rounded-md text-[11px] font-semibold border transition-all duration-150 cursor-pointer text-center active:scale-[0.98] ${
+                        sourceFilter === src.id
+                          ? "bg-zinc-900 text-white border-zinc-900 shadow-2xs"
+                          : "bg-white hover:bg-zinc-100 text-zinc-700 border-zinc-200/80"
+                      }`}
+                    >
+                      <div>{src.label}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Row 5: Platform (if multiple platforms exist) */}
+          {availablePlatforms.length > 1 && (
+            <div className="py-0.5">
+              <button
+                type="button"
+                onClick={() => toggleExpandedFilter("platform")}
+                className="w-full flex items-center justify-between px-2.5 py-2 rounded-lg hover:bg-zinc-50 transition-colors text-left cursor-pointer group"
+              >
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-[11px] text-zinc-400 font-medium">Coding Platform</span>
+                  <span className="text-[13px] font-semibold text-zinc-900">
+                    {platformFilter === "ALL" ? "All Platforms" : platformFilter}
+                  </span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Globe className="size-3.5 text-zinc-500 shrink-0" />
+                  <ChevronDown
+                    className={cn(
+                      "size-3.5 text-zinc-400 transition-transform duration-200 ease-out group-hover:text-zinc-700",
+                      expandedFilters.platform && "rotate-180"
+                    )}
+                  />
+                </div>
+              </button>
+              {/* Buttery smooth CSS Grid folding container */}
+              <div
+                className={cn(
+                  "grid transition-[grid-template-rows,opacity] duration-250 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                  expandedFilters.platform ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0 pointer-events-none"
+                )}
+              >
+                <div className="overflow-hidden">
+                  <div className="flex flex-wrap gap-1 px-2 pb-2 pt-1 bg-zinc-50/70 rounded-lg mx-1 mb-1 border border-zinc-100">
+                    <button
+                      type="button"
+                      onClick={() => setPlatformFilter("ALL")}
+                      className={`px-2.5 py-1 rounded-md text-[11px] font-semibold border transition-all duration-150 cursor-pointer active:scale-[0.98] ${
+                        platformFilter === "ALL"
+                          ? "bg-zinc-900 text-white border-zinc-900"
+                          : "bg-white hover:bg-zinc-100 text-zinc-700 border-zinc-200/80"
+                      }`}
+                    >
+                      All
+                    </button>
+                    {availablePlatforms.map((plat) => {
+                      const info = getPlatformBadge(plat as CodingPlatformType);
+                      return (
+                        <button
+                          key={plat}
+                          type="button"
+                          onClick={() => setPlatformFilter(plat)}
+                          className={`inline-flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-semibold border transition-all duration-150 cursor-pointer active:scale-[0.98] ${
+                            platformFilter === plat
+                              ? "bg-zinc-900 text-white border-zinc-900 shadow-2xs"
+                              : "bg-white hover:bg-zinc-100 text-zinc-700 border-zinc-200/80"
+                          }`}
+                        >
+                          <CodingPlatformIcon platform={plat as CodingPlatformType} className="size-3 shrink-0" />
+                          <span>{info.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Row 6: Topics */}
+          <div className="py-0.5">
+            <button
+              type="button"
+              onClick={() => toggleExpandedFilter("topics")}
+              className="w-full flex items-center justify-between px-2.5 py-2 rounded-lg hover:bg-zinc-50 transition-colors text-left cursor-pointer group"
+            >
+              <div className="flex flex-col gap-0.5">
+                <span className="text-[11px] text-zinc-400 font-medium">
+                  Topics ({allTopicsWithCounts.length})
+                </span>
+                <span className="text-[13px] font-semibold text-zinc-900">
+                  {selectedTopics.length === 0
+                    ? "All Topics"
+                    : `${selectedTopics.length} selected`}
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Search className="size-3.5 text-zinc-500 shrink-0" />
+                <ChevronDown
+                  className={cn(
+                    "size-3.5 text-zinc-400 transition-transform duration-200 ease-out group-hover:text-zinc-700",
+                    expandedFilters.topics && "rotate-180"
+                  )}
+                />
+              </div>
+            </button>
+            {/* Buttery smooth CSS Grid folding container */}
+            <div
+              className={cn(
+                "grid transition-[grid-template-rows,opacity] duration-250 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                expandedFilters.topics ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0 pointer-events-none"
+              )}
+            >
+              <div className="overflow-hidden">
+                <div className="space-y-1.5 px-2 pb-2 pt-1 bg-zinc-50/70 rounded-lg mx-1 mb-1 border border-zinc-100">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10.5px] text-zinc-500">Filter by topic tag</span>
+                    {selectedTopics.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setSelectedTopics([])}
+                        className="text-[10.5px] text-zinc-900 hover:underline font-bold cursor-pointer"
+                      >
+                        Clear ({selectedTopics.length})
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="relative">
+                    <Search className="absolute left-2 top-1/2 -translate-y-1/2 size-3 text-zinc-400 pointer-events-none" />
+                    <input
+                      type="text"
+                      value={filterTopicSearch}
+                      onChange={(e) => setFilterTopicSearch(e.target.value)}
+                      placeholder="Search topics..."
+                      className="w-full pl-6 pr-6 py-1 rounded-md border border-zinc-200 bg-white text-[11px] placeholder:text-zinc-400 focus:outline-none focus:ring-1 focus:ring-zinc-900"
+                    />
+                    {filterTopicSearch && (
+                      <button
+                        type="button"
+                        onClick={() => setFilterTopicSearch("")}
+                        className="absolute right-1.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-700 p-0.5"
+                      >
+                        <X className="size-3" />
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="flex flex-wrap gap-1 max-h-36 overflow-y-auto pr-0.5 no-scrollbar">
+                    {allTopicsWithCounts
+                      .filter(({ topic }) =>
+                        topic.toLowerCase().includes(filterTopicSearch.toLowerCase().trim())
+                      )
+                      .map(({ topic, count }) => {
+                        const isSelected = selectedTopics.includes(topic);
+                        return (
+                          <button
+                            key={topic}
+                            type="button"
+                            onClick={() => toggleTopic(topic)}
+                            className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10.5px] transition-all duration-150 cursor-pointer border active:scale-[0.98] ${
+                              isSelected
+                                ? "bg-zinc-900 text-white border-zinc-900 font-semibold"
+                                : "bg-white hover:bg-zinc-100 text-zinc-700 border-zinc-200/80"
+                            }`}
+                          >
+                            <span>{topic}</span>
+                            <span
+                              className={`text-[9.5px] font-mono ${
+                                isSelected ? "text-zinc-300" : "text-zinc-400"
+                              }`}
+                            >
+                              {count}
+                            </span>
+                          </button>
+                        );
+                      })}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Action Buttons (Optimized for both Mobile Touch & Desktop) */}
+        <div className="p-3 pt-2.5 border-t border-zinc-100 bg-white space-y-2 sm:space-y-1.5 shrink-0">
+          {/* Button: Apply Filters */}
+          <button
+            type="button"
+            onClick={() => setIsFilterSheetOpen(false)}
+            className="w-full h-10 sm:h-8.5 px-3 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 text-zinc-900 text-xs font-semibold flex items-center justify-center shadow-2xs transition-all duration-150 active:scale-[0.98] cursor-pointer"
+          >
+            <span>Apply Filters ({filteredProblems.length})</span>
+          </button>
+
+          {/* Button: Shuffle with [R] shortcut badge */}
+          <button
+            type="button"
+            onClick={handlePickRandomProblem}
+            className="w-full h-10 sm:h-8.5 px-3.5 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 text-zinc-900 text-xs font-semibold flex items-center justify-between shadow-2xs transition-all duration-150 active:scale-[0.98] cursor-pointer relative"
+            title="Shuffle / Pick Random Question (Press R)"
+          >
+            <div className="flex items-center gap-2">
+              <Shuffle className="size-3.5 text-zinc-700" />
+              <span>Shuffle</span>
+            </div>
+            <kbd className="px-1.5 py-0.5 text-[10px] font-mono font-bold rounded bg-zinc-100 text-zinc-600 border border-zinc-200">
+              R
+            </kbd>
+          </button>
+
+          {/* Button: Reset */}
+          <button
+            type="button"
+            disabled={activeFilterCount === 0}
+            onClick={resetAllFilters}
+            className="w-full h-9 sm:h-8.5 px-3 rounded-lg border border-zinc-200 bg-white hover:bg-zinc-50 text-zinc-900 text-xs font-semibold flex items-center justify-center shadow-2xs disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-150 active:scale-[0.98] cursor-pointer"
+          >
+            <span>Reset</span>
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
