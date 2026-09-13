@@ -1,4 +1,4 @@
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans, Instrument_Sans } from "next/font/google";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/lib/context/auth-context";
@@ -16,6 +16,13 @@ const fontHeading = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-heading",
   weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
+
+const fontInstrument = Instrument_Sans({
+  subsets: ["latin"],
+  variable: "--font-instrument",
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -51,7 +58,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/logos/algorynlog.png" />
         <GoogleAdSenseClient />
       </head>
-      <body className={`${fontSans.variable} ${fontHeading.variable} antialiased`} suppressHydrationWarning>
+      <body className={`${fontSans.variable} ${fontHeading.variable} ${fontInstrument.variable} antialiased`} suppressHydrationWarning>
         <AuthProvider>
           <TooltipProvider>
             {children}

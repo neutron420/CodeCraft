@@ -275,3 +275,9 @@ button, [role="button"], a.btn, input[type="button"], input[type="submit"] {
 .badge, [class*="badge"], [class*="tag"] {
   font-weight: 550;
 }
+
+.font-instrument {
+  font-family: var(--font-instrument), var(--font-heading), sans-serif !important;
+  font-feature-settings: "ss05" 1, "cv05" 1;
+  letter-spacing: -0.04em !important;
+}
